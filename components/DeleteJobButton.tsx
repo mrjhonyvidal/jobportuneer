@@ -21,17 +21,19 @@ function DeleteJobButton({ id }: { id: string }) {
       queryClient.invalidateQueries({ queryKey: ["stats"] });
       queryClient.invalidateQueries({ queryKey: ["charts"] });
 
-      toast({ description: "job removed" });
+      toast({ description: "Job Removed" });
     },
   });
+
+  const handleDelete = () => {
+    const confirmed = confirm("Are you sure you want to delete this job?");
+    if (confirmed) {
+      mutate(id);
+    }
+  };
+
   return (
-    <Button
-      size="sm"
-      disabled={isPending}
-      onClick={() => {
-        mutate(id);
-      }}
-    >
+    <Button size="sm" disabled={isPending} onClick={handleDelete}>
       {isPending ? "deleting..." : "delete"}
     </Button>
   );
