@@ -1,4 +1,4 @@
-import { AreaChart, Layers, AppWindow } from "lucide-react";
+import { AreaChart, Layers, AppWindow, FileCheck, Rocket } from "lucide-react";
 
 type NavLink = {
   href: string;
@@ -15,12 +15,17 @@ const links: NavLink[] = [
   {
     href: "/jobs",
     label: "My Jobs",
-    icon: <AppWindow />,
+    icon: <AppWindow size={24} />,
   },
   {
     href: "/add-job",
     label: "Add Job",
-    icon: <Layers />,
+    icon: <Layers size={24} />,
+  },
+  {
+    href: "/win-win",
+    label: "Coming Soon",
+    icon: <Rocket size={24} />,
   },
 ];
 

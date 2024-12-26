@@ -12,7 +12,7 @@ export default function PublicNavBar() {
   const { isSignedIn } = useUser();
 
   return (
-    <header className="top-0 mx-auto px-4 sm:px-8 bg-white py-6 z-50 transition-colors duration-300">
+    <header className="top-0 mx-auto px-4 sm:px-8 bg-white shadow-sm py-6 z-50 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-8 py-6 flex justify-between items-center">
         <Link href="/">
           <Image
