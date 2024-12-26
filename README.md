@@ -1180,6 +1180,12 @@ model Job {
 npx prisma db push
 ```
 
+- open Prisma studio
+
+```sh
+npx prisma studio
+```
+
 ## Challenge - CreateJobAction
 
 1. **Import necessary libraries and modules**
@@ -1290,7 +1296,7 @@ npx shadcn@latest add toast
 
 ## Add React Query and Toaster
 
-- app/provider
+- app/providers.tsx
 
 ```tsx
 "use client";
