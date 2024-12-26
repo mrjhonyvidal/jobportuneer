@@ -55,7 +55,7 @@ export default function UnderDevelopment() {
       {/* Help Us Section */}
       <section className="text-center mt-16 mb-12">
         <h2 className="text-4xl font-bold text-gray-800">
-          Let's Build <span className="text-primary"> Jobportuneer</span>{" "}
+          Let&apos;s Build <span className="text-primary"> Jobportuneer</span>{" "}
           Together!
         </h2>
         <p className="text-lg text-gray-600 mt-4 max-w-xl mx-auto">
@@ -94,7 +94,7 @@ export default function UnderDevelopment() {
       {/* Upcoming Features */}
       <section className="max-w-4xl mx-auto py-12">
         <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">
-          Here's What's Coming
+          Here&apos;s What&apos;s Coming
         </h2>
         <p className="text-lg text-gray-600 text-center mb-8">
           These tools are in the works, and with your help, we can launch them
@@ -145,7 +145,7 @@ export default function UnderDevelopment() {
           />
           <h2 className="text-3xl font-bold text-gray-800">About Me</h2>
           <p className="text-lg text-gray-600 mt-4 max-w-xl">
-            Hi there! 👋 I'm a software developer with over 10 years of
+            Hi there! 👋 I&apos;m a software developer with over 10 years of
             experience creating apps and solving real-world problems.
             <span className="text-primary"> Jobportuneer</span> is my passion
             project, inspired by my own struggles with job hunting—preparing for
@@ -153,11 +153,11 @@ export default function UnderDevelopment() {
           </p>
           <p className="text-lg text-gray-600 mt-4 max-w-xl">
             The mission is simple: to make job searching easier, less stressful,
-            and more productive. Whether it’s tracking applications, preparing
-            for interviews, or updating your CV, Jobportuneer is here to help.
-            Your support means the world 🌍 and helps me create even more tools
-            to empower job seekers like us. Let’s make job hunting better—
-            together! 🚀
+            and more productive. Whether it&apos;s tracking applications,
+            preparing for interviews, or updating your CV, Jobportuneer is here
+            to help. Your support means the world 🌍 and helps me create even
+            more tools to empower job seekers like us. Let&apos;s make job
+            hunting better— together! 🚀
           </p>
         </div>
       </section>
