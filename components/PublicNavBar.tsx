@@ -26,7 +26,7 @@ export default function PublicNavBar() {
         <div className="hidden md:flex space-x-6 items-center">
           {isSignedIn ? (
             <Button variant="outline" asChild>
-              <Link href="/jobs">
+              <Link href="/stats">
                 <span className="flex items-center space-x-2">
                   <DoorOpen className="w-5 h-5" />
                   <span>Dashboard</span>
@@ -35,7 +35,7 @@ export default function PublicNavBar() {
             </Button>
           ) : (
             <Button variant="outline" asChild>
-              <Link href="/jobs">
+              <Link href="/stats">
                 <span className="flex items-center space-x-2">
                   <DoorOpen className="w-5 h-5" />
                   <span>Sign In</span>
@@ -64,7 +64,7 @@ export default function PublicNavBar() {
           <nav className="flex flex-col items-center space-y-4">
             {isSignedIn ? (
               <Button variant="outline" asChild>
-                <Link href="/jobs">
+                <Link href="/stats">
                   <span className="flex items-center space-x-2">
                     <DoorOpen className="w-5 h-5" />
                     <span>Dashboard</span>
@@ -73,7 +73,7 @@ export default function PublicNavBar() {
               </Button>
             ) : (
               <Button variant="outline" asChild>
-                <Link href="/jobs">
+                <Link href="/stats">
                   <span className="flex items-center space-x-2">
                     <DoorOpen className="w-5 h-5" />
                     <span>Sign In</span>

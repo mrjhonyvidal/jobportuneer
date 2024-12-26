@@ -22,13 +22,13 @@ export default function Home() {
           <h1 className="capitalize text-4xl md:text-7xl font-bold">
             tired of job <span className="text-primary">search stress?</span>
           </h1>
-          <p className="leading-loose max-w-md mt-4 text-gray-700">
+          <p className="leading-loose max-w-md mt-4">
             Track your progress, save time, and focus on what matters—landing
             the job.
           </p>
           <div className="flex space-x-4 mt-4">
             <Button asChild>
-              <Link href="/add-job">
+              <Link href="/stats">
                 <span className="flex items-center space-x-2">
                   <ArrowRight className="w-5 h-5" />
                   <span>Start Tracking</span>
@@ -100,7 +100,7 @@ export default function Home() {
             No costs, no hassle.
           </p>
           <Button variant="secondary" asChild className="mt-6">
-            <Link href="/add-job">Get Started Today</Link>
+            <Link href="/stats">Get Started Today</Link>
           </Button>
         </div>
       </section>
