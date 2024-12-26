@@ -10,7 +10,13 @@ function Sidebar() {
 
   return (
     <aside className="py-4 px-8 bg-muted h-full">
-      <Image src={Logo} alt="logo" className="mx-auto" />
+      <Link href="/jobs">
+        <Image
+          src={Logo}
+          alt="Jobportuneer Logo"
+          className="mx-auto cursor-pointer"
+        />
+      </Link>
       <div className="flex flex-col mt-20 gap-y-4">
         {links.map((link) => {
           return (

@@ -1,22 +1,20 @@
 import Image from "next/image";
-import Logo from "../assets/logo.svg";
 import LandingImg from "../assets/main.svg";
 import FeatureTrack from "../assets/feature-track.svg";
 import FeatureCV from "../assets/feature-cv.svg";
 import FeatureInterview from "../assets/feature-interview.svg";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { CircleUserRound, RocketIcon } from "lucide-react";
+import { ArrowRight, CircleUserRound, RocketIcon } from "lucide-react";
+import PublicFooter from "@/components/PublicFooter";
+import PublicNavBar from "@/components/PublicNavBar";
 
 export default function Home() {
   const currentYear = new Date().getFullYear();
 
   return (
     <main>
-      {/* Header */}
-      <header className="max-w-6xl mx-auto px-4 sm:px-8 py-6 flex justify-between items-center">
-        <Image src={Logo} alt="Jobportuneer Logo" />
-      </header>
+      <PublicNavBar />
 
       {/* Hero Section */}
       <section className="max-w-6xl mx-auto px-4 sm:px-8 h-screen -mt-20 grid lg:grid-cols-[1fr,400px] items-center">
@@ -32,8 +30,8 @@ export default function Home() {
             <Button asChild>
               <Link href="/add-job">
                 <span className="flex items-center space-x-2">
-                  <RocketIcon className="w-5 h-5" />
-                  <span>Get Started</span>
+                  <ArrowRight className="w-5 h-5" />
+                  <span>Start Tracking</span>
                 </span>
               </Link>
             </Button>
@@ -172,24 +170,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-6">
-        <div className="max-w-6xl mx-auto px-4 sm:px-8 text-center">
-          <p>
-            © {currentYear} Made with{" "}
-            <span className="text-primary">&hearts;</span> by
-            TrailblazersGarage.
-          </p>
-          <nav className="flex justify-center space-x-4 mt-4">
-            <Link href="/privacy" className="hover:text-primary">
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className="hover:text-primary">
-              Terms of Use
-            </Link>
-          </nav>
-        </div>
-      </footer>
+      <PublicFooter />
     </main>
   );
 }
