@@ -8,34 +8,42 @@ export type JobType = {
   position: string;
   company: string;
   location: string;
+  salary: string;
   status: string;
   mode: string;
 };
 
 export enum JobStatus {
-  Pending = "pending",
-  Interview = "interview",
-  Declined = "declined",
+  Pending = "Pending",
+  Interview = "Interview",
+  Declined = "Declined",
 }
 
 export enum JobMode {
-  FullTime = "full-time",
-  PartTime = "part-time",
-  Internship = "internship",
+  FullTime = "Full-time",
+  PartTime = "Part-time",
+  Internship = "Internship",
 }
 
 export const createAndEditJobSchema = z.object({
   position: z.string().min(2, {
-    message: "position must be at least 2 characters.",
+    message: "Position must be at least 2 characters.",
   }),
   company: z.string().min(2, {
-    message: "company must be at least 2 characters.",
+    message: "Company must be at least 2 characters.",
+  }),
+  salary: z.string().min(2, {
+    message: "Salary must be at least 2 characters.",
   }),
   location: z.string().min(2, {
-    message: "location must be at least 2 characters.",
+    message: "Location must be at least 2 characters.",
   }),
-  status: z.nativeEnum(JobStatus),
-  mode: z.nativeEnum(JobMode),
+  status: z.nativeEnum(JobStatus, {
+    message: "Status must be a valid JobStatus.",
+  }),
+  mode: z.nativeEnum(JobMode, {
+    message: "Mode must be a valid JobMode.",
+  }),
 });
 
 export type CreateAndEditJobType = z.infer<typeof createAndEditJobSchema>;
