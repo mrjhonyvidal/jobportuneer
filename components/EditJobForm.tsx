@@ -16,17 +16,16 @@ import { Form } from "@/components/ui/form";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import RightSidebar from "@/components/RightSidebar";
 
 import { CustomFormField, CustomFormSelect } from "./FormComponents";
 import { getSingleJobAction, updateJobAction } from "@/utils/actions";
 import InterviewList from "./InterviewList";
 import JobDetailsSidebar from "./JobDetailsSidebar";
 import InterviewTipsSidebar from "./InterviewTipsSidebar";
-import { Briefcase, CheckCircle, DollarSign, List, MapPin } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 
 function EditJobForm({ jobId }: { jobId: string }) {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarContentType, setSidebarContentType] = useState<
     "job" | "interview"
   >("job");
@@ -39,60 +38,6 @@ function EditJobForm({ jobId }: { jobId: string }) {
     queryKey: ["job", jobId],
     queryFn: () => getSingleJobAction(jobId),
   });
-
-  const interviewTipsSections = [
-    {
-      title: "Resume Review",
-      icon: CheckCircle,
-      content: "Ensure your resume is up to date with relevant skills.",
-    },
-    {
-      title: "Technical Assessment",
-      icon: List,
-      content:
-        "Practice coding challenges on platforms like LeetCode or HackerRank.",
-    },
-    {
-      title: "Final Interview",
-      icon: CheckCircle,
-      content:
-        "Prepare examples of past projects to discuss during the interview.",
-    },
-  ];
-
-  const sidebarContent =
-    sidebarContentType === "job" ? (
-      <div>
-        <h3 className="font-semibold text-lg">Job Insights</h3>
-        <p>
-          Details about the job, such as position, company, and status, will go
-          here.
-        </p>
-      </div>
-    ) : (
-      <div>
-        <h3 className="font-semibold text-lg">Interview Tips</h3>
-        <InterviewList
-          steps={[
-            {
-              title: "Phone Screening",
-              description: "Initial call with HR.",
-              completed: true,
-            },
-            {
-              title: "Technical Assessment",
-              description: "Online coding test.",
-              completed: false,
-            },
-            {
-              title: "Final Interview",
-              description: "Discussion with the leadership team.",
-              completed: false,
-            },
-          ]}
-        />
-      </div>
-    );
 
   const { mutate, isPending } = useMutation({
     mutationFn: (values: CreateAndEditJobType) =>
@@ -120,6 +65,33 @@ function EditJobForm({ jobId }: { jobId: string }) {
 
   return (
     <>
+      {/* Button Section */}
+      <div className="flex justify-end items-center mb-6">
+        <div className="flex gap-2">
+          <Button
+            variant="secondary"
+            onClick={() => {
+              setSidebarContentType("job");
+              setSidebarOpen(true);
+            }}
+            className="flex items-center gap-2"
+          >
+            Open Job Details
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setSidebarContentType("interview");
+              setSidebarOpen(true);
+            }}
+            className="flex items-center gap-2"
+          >
+            <MoreHorizontal className="w-5 h-5" />
+            More Options
+          </Button>
+        </div>
+      </div>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -153,26 +125,27 @@ function EditJobForm({ jobId }: { jobId: string }) {
           </div>
         </form>
       </Form>
-      <div className="flex gap-4 mt-4">
-        <Button
-          variant="secondary"
-          onClick={() => {
-            setSidebarContentType("job");
-            setSidebarOpen(true);
-          }}
-        >
-          Open Job Details
-        </Button>
-        <Button
-          variant="secondary"
-          onClick={() => {
-            setSidebarContentType("interview");
-            setSidebarOpen(true);
-          }}
-        >
-          Open Interview Tips
-        </Button>
-      </div>
+
+      <InterviewList
+        steps={[
+          {
+            title: "Phone Screening",
+            description: "Initial call with HR.",
+            completed: true,
+          },
+          {
+            title: "Technical Assessment",
+            description: "Online coding test.",
+            completed: false,
+          },
+          {
+            title: "Final Interview",
+            description: "Discussion with the leadership team.",
+            completed: false,
+          },
+        ]}
+      />
+
       {sidebarContentType === "job" && data && (
         <JobDetailsSidebar
           isOpen={isSidebarOpen}
@@ -180,6 +153,17 @@ function EditJobForm({ jobId }: { jobId: string }) {
           job={data}
         />
       )}
+
+      <Button
+        variant="secondary"
+        onClick={() => {
+          setSidebarContentType("interview");
+          setSidebarOpen(true);
+        }}
+      >
+        Open Interview Tips
+      </Button>
+
       {sidebarContentType === "interview" && (
         <InterviewTipsSidebar
           isOpen={isSidebarOpen}

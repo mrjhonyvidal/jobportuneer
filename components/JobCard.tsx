@@ -19,17 +19,17 @@ import DeleteJobButton from "./DeleteJobButton";
 function JobCard({ job, onClick }: { job: JobType; onClick: () => void }) {
   const date = new Date(job.createdAt).toLocaleDateString();
   return (
-    <Card className="bg-muted cursor-pointer" onClick={onClick}>
-      <CardHeader>
+    <Card className="bg-muted cursor-pointer">
+      <CardHeader onClick={onClick}>
         <CardTitle>{job.position}</CardTitle>
         <CardDescription>{job.company}</CardDescription>
       </CardHeader>
       <Separator />
-      <CardContent className="mt-4 grid grid-cols-2 gap-4">
+      <CardContent className="mt-4 grid grid-cols-2 gap-4" onClick={onClick}>
         <JobInfo icon={<Briefcase />} text={job.mode} />
         <JobInfo icon={<MapPin />} text={job.location} />
         <JobInfo icon={<CalendarDays />} text={date} />
-        <Badge className="w-32  justify-center">
+        <Badge className="w-32 justify-center">
           <JobInfo
             icon={<RadioTower className="w-4 h-4" />}
             text={job.status}

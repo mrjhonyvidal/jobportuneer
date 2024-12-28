@@ -18,7 +18,7 @@ export default function InterviewList({ steps }: InterviewListProps) {
   const totalSteps = steps.length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 mt-6 mb-6">
       {/* Progress Bar */}
       <div>
         <h3 className="font-semibold text-lg mb-2">Interview Progress</h3>
