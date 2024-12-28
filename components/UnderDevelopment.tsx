@@ -30,7 +30,7 @@ export default function UnderDevelopment() {
             Together!
           </h2>
           <p className="text-lg text-gray-600 mt-4 max-w-xl mx-auto">
-            Your support enables us to create tools that make job hunting
+            Your support enables us to create tools that make your job hunting
             easier. Every contribution helps us dedicate time to adding features
             and improving the platform for you.
           </p>

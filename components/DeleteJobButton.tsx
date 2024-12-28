@@ -34,7 +34,7 @@ function DeleteJobButton({ id }: { id: string }) {
 
   return (
     <Button size="sm" disabled={isPending} onClick={handleDelete}>
-      {isPending ? "deleting..." : "delete"}
+      {isPending ? "Removing..." : "Remove"}
     </Button>
   );
 }

@@ -1,13 +1,20 @@
 "use client";
+import { useState } from "react";
 import JobCard from "./JobCard";
 import { useSearchParams } from "next/navigation";
 import { getAllJobsAction } from "@/utils/actions";
 import { useQuery } from "@tanstack/react-query";
 import ButtonContainer from "./ButtonContainer";
 import ComplexButtonContainer from "./ComplexButtonContainer";
+import { JobType } from "@/utils/types";
+import JobDetailsSidebar from "./JobDetailsSidebar";
 
 function JobsList() {
   const searchParams = useSearchParams();
+
+  // State for RightSidebar
+  const [selectedJob, setSelectedJob] = useState<JobType | null>(null);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const search = searchParams.get("search") || "";
   const jobStatus = searchParams.get("jobStatus") || "all";
@@ -38,9 +45,26 @@ function JobsList() {
       </div>
       <div className="grid md:grid-cols-2  gap-8">
         {jobs.map((job) => {
-          return <JobCard key={job.id} job={job} />;
+          return (
+            <JobCard
+              key={job.id}
+              job={job}
+              onClick={() => {
+                setSelectedJob(job); // Set the selected job
+                setSidebarOpen(true); // Open the sidebar
+              }}
+            />
+          );
         })}
       </div>
+      {/* JobDetailsSidebar */}
+      {selectedJob && (
+        <JobDetailsSidebar
+          isOpen={isSidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          job={selectedJob}
+        />
+      )}
     </>
   );
 }
