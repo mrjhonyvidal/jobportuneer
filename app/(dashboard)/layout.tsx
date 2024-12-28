@@ -15,10 +15,12 @@ function Layout({ children }: PropsWithChildren) {
         {/* Sidebar: hidden on small screens */}
         <div className="hidden lg:block lg:col-span-1 bg-muted">
           <SidebarProvider
-            style={{
-              "--sidebar-width": "20rem",
-              "--sidebar-width-mobile": "20rem",
-            }}
+            style={
+              {
+                "--sidebar-width": "20rem",
+                "--sidebar-width-mobile": "20rem",
+              } as React.CSSProperties
+            }
           >
             <AppSidebar />
           </SidebarProvider>
