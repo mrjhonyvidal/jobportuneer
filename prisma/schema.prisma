@@ -14,14 +14,99 @@ datasource db {
 }
 
 model Job {
-  id        String      @id @default(uuid())
-  clerkId   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  position  String
-  company   String
-  location  String
-  salary    String
-  status    String
-  mode      String
+  id                    String             @id @default(uuid())
+  clerkId               String
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  position              String
+  company               String
+  location              String
+  salary                String
+  salaryAsked           String?
+  salaryRange           String?
+  salaryOffered         String?
+  status                String             // Enum: Pending, InterviewProcess, etc.
+  workType              String             // Enum: Hybrid, Onsite, Remote, etc.
+  employmentType        String             // Enum: Full-Time, Part-Time, etc.
+  description           String?
+  experienceRequired    Int?
+  priority              String?
+  requirements          String[]
+  benefits              String[]
+  dateApplied           DateTime?
+  interviewStages       InterviewStage[]   // One-to-many relation
+  reminders             Reminder[]         // One-to-many relation
+  contacts              Contact[]          // One-to-many relation
+  tips                  Tip[]              // One-to-many relation
+  sentFollowupToRecruiter Boolean          @default(false)
+}
+
+model InterviewStage {
+  id                    String             @id @default(uuid())
+  clerkId               String
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  jobId                 String             // Relation field
+  job                   Job                @relation(fields: [jobId], references: [id])
+  stageName             String
+  description           String?
+  status                String             // Enum: Pending, Completed, Cancelled
+  scheduledDate         DateTime?
+  durationMinutes       Int?
+  notes                 String?
+  tips                  Tip[]              // One-to-many relation
+}
+
+model Reminder {
+  id                    String             @id @default(uuid())
+  clerkId               String
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  jobId                 String             // Relation field
+  job                   Job                @relation(fields: [jobId], references: [id])
+  title                 String
+  reminderDate          DateTime
+  reminderType          String             // Enum: Email, SMS, Notification
+  status                String             // Enum: Active, Completed, Cancelled
+  notes                 String?
+}
+
+model Contact {
+  id                    String             @id @default(uuid())
+  clerkId               String
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  jobId                 String             // Relation field
+  job                   Job                @relation(fields: [jobId], references: [id])
+  contactName           String
+  role                  String             // Enum: Recruiter, Hiring Manager, Interviewer
+  email                 String
+  phone                 String?
+  company               String?
+  notes                 String?
+}
+
+model Tip {
+  id                    String             @id @default(uuid())
+  clerkId               String
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  jobId                 String?            // Optional relation field
+  job                   Job?               @relation(fields: [jobId], references: [id])
+  interviewStageId      String?            // Optional relation field
+  interviewStage        InterviewStage?    @relation(fields: [interviewStageId], references: [id])
+  title                 String
+  content               String
+  category              String             // Enum: Resume, Interview, Negotiation, etc.
+}
+
+model Preference {
+  id                    String             @id @default(uuid())
+  clerkId               String             @unique
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  followUpFrequencyDays Int                @default(7)
+  remindBeforeInterview Int                @default(2)
+  notifyJobStatusChange Boolean            @default(true)
+  customPreferences     Json?
 }

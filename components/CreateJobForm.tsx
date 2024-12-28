@@ -4,8 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import {
+  PriorityType,
   JobStatus,
-  JobMode,
+  WorkType,
+  EmploymentType,
   createAndEditJobSchema,
   CreateAndEditJobType,
 } from "@/utils/types";
@@ -28,8 +30,12 @@ function CreateJobForm() {
       company: "",
       location: "",
       salary: "",
+      workType: WorkType.Hybrid,
       status: JobStatus.Pending,
-      mode: JobMode.FullTime,
+      employmentType: EmploymentType.FullTime,
+      salaryAsked: "",
+      salaryRange: "",
+      priority: PriorityType.GreatOpportunity,
     },
   });
 
@@ -39,6 +45,7 @@ function CreateJobForm() {
   const { mutate, isPending } = useMutation({
     mutationFn: (values: CreateAndEditJobType) => createJobAction(values),
     onSuccess: (data) => {
+      console.log(data);
       if (!data) {
         toast({ description: "There was an error creating the job" });
         return;
@@ -64,24 +71,37 @@ function CreateJobForm() {
         className="bg-muted p-8 rounded"
       >
         <h2 className="capitalize font-semibold text-4xl mb-6">add job</h2>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2 items-start">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 items-start">
           <CustomFormField name="position" control={form.control} />
           <CustomFormField name="company" control={form.control} />
           <CustomFormField name="location" control={form.control} />
           <CustomFormField name="salary" control={form.control} />
+          <CustomFormField name="salaryAsked" control={form.control} />
+          <CustomFormField name="salaryRange" control={form.control} />
           <CustomFormSelect
             name="status"
             control={form.control}
-            labelText="job status"
+            labelText="Job Status"
             items={Object.values(JobStatus)}
           />
           <CustomFormSelect
-            name="mode"
+            name="workType"
             control={form.control}
-            labelText="job mode"
-            items={Object.values(JobMode)}
+            labelText="Work Type"
+            items={Object.values(WorkType)}
           />
-
+          <CustomFormSelect
+            name="employmentType"
+            control={form.control}
+            labelText="Employment Type"
+            items={Object.values(EmploymentType)}
+          />
+          <CustomFormSelect
+            name="priority"
+            control={form.control}
+            labelText="Priority"
+            items={Object.values(PriorityType)}
+          />
           <Button
             type="submit"
             className="self-end capitalize"

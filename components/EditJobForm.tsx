@@ -6,9 +6,11 @@ import { useState } from "react";
 
 import {
   JobStatus,
-  JobMode,
+  WorkType,
+  EmploymentType,
   createAndEditJobSchema,
   CreateAndEditJobType,
+  PriorityType,
 } from "@/utils/types";
 
 import { Button } from "@/components/ui/button";
@@ -64,8 +66,14 @@ function EditJobForm({ jobId }: { jobId: string }) {
       company: data?.company || "",
       location: data?.location || "",
       salary: data?.salary || "",
+      salaryAsked: data?.salaryAsked || "",
+      salaryRange: data?.salaryRange || "",
+      workType: (data?.workType as WorkType) || WorkType.Hybrid,
       status: (data?.status as JobStatus) || JobStatus.Pending,
-      mode: (data?.mode as JobMode) || JobMode.FullTime,
+      employmentType:
+        (data?.employmentType as EmploymentType) || EmploymentType.FullTime,
+      priority:
+        (data?.priority as PriorityType) || PriorityType.GreatOpportunity,
     },
   });
 
@@ -113,17 +121,31 @@ function EditJobForm({ jobId }: { jobId: string }) {
             <CustomFormField name="company" control={form.control} />
             <CustomFormField name="location" control={form.control} />
             <CustomFormField name="salary" control={form.control} />
+            <CustomFormField name="salaryAsked" control={form.control} />
+            <CustomFormField name="salaryRange" control={form.control} />
             <CustomFormSelect
               name="status"
               control={form.control}
-              labelText="job status"
+              labelText="Job Status"
               items={Object.values(JobStatus)}
             />
             <CustomFormSelect
-              name="mode"
+              name="workType"
               control={form.control}
-              labelText="job mode"
-              items={Object.values(JobMode)}
+              labelText="Work Type"
+              items={Object.values(WorkType)}
+            />
+            <CustomFormSelect
+              name="employmentType"
+              control={form.control}
+              labelText="Employment Type"
+              items={Object.values(EmploymentType)}
+            />
+            <CustomFormSelect
+              name="priority"
+              control={form.control}
+              labelText="Priority"
+              items={Object.values(PriorityType)}
             />
             <Button
               type="submit"

@@ -166,6 +166,9 @@ export async function getStatsAction(): Promise<{
   Pending: number;
   Interview: number;
   Declined: number;
+  Rejected: number;
+  DiscussingOffer: number;
+  Accepted: number;
 }> {
   const userId = authenticateAndRedirect();
   // just to show Skeleton
@@ -187,8 +190,11 @@ export async function getStatsAction(): Promise<{
 
     const defaultStats = {
       Pending: 0,
-      Declined: 0,
       Interview: 0,
+      Declined: 0,
+      Rejected: 0,
+      DiscussingOffer: 0,
+      Accepted: 0,
       ...statsObject,
     };
     return defaultStats;

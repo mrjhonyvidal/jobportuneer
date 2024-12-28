@@ -26,7 +26,7 @@ function JobCard({ job, onClick }: { job: JobType; onClick: () => void }) {
       </CardHeader>
       <Separator />
       <CardContent className="mt-4 grid grid-cols-2 gap-4" onClick={onClick}>
-        <JobInfo icon={<Briefcase />} text={job.mode} />
+        <JobInfo icon={<Briefcase />} text={job.employmentType} />
         <JobInfo icon={<MapPin />} text={job.location} />
         <JobInfo icon={<CalendarDays />} text={date} />
         <Badge className="w-32 justify-center">
