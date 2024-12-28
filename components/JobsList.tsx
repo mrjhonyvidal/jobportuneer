@@ -8,6 +8,9 @@ import ButtonContainer from "./ButtonContainer";
 import ComplexButtonContainer from "./ComplexButtonContainer";
 import { JobType } from "@/utils/types";
 import JobDetailsSidebar from "./JobDetailsSidebar";
+import { Button } from "./ui/button";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 function JobsList() {
   const searchParams = useSearchParams();
@@ -32,7 +35,21 @@ function JobsList() {
 
   if (isPending) return <h2 className="text-xl">Please Wait...</h2>;
 
-  if (jobs.length < 1) return <h2 className="text-xl">No Jobs Found...</h2>;
+  if (jobs.length < 1) {
+    return (
+      <div className="text-center mt-8">
+        <h2 className="text-xl font-semibold">No Jobs Found...</h2>
+        <Button variant="secondary" asChild>
+          <Link href="/add-job">
+            <span className="flex items-center space-x-2 font-bold text-lg">
+              <ArrowRight className="w-5 h-5" />
+              <span>Start Tracking</span>
+            </span>
+          </Link>
+        </Button>
+      </div>
+    );
+  }
   return (
     <>
       <div className="flex items-center justify-between mb-8">
