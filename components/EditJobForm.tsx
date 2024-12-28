@@ -42,9 +42,17 @@ function EditJobForm({ jobId }: { jobId: string }) {
   const { mutate, isPending } = useMutation({
     mutationFn: (values: CreateAndEditJobType) =>
       updateJobAction(jobId, values),
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if (!data) {
+        toast({
+          description: "There was an error",
+        });
+        return;
+      }
       toast({ description: "Job Updated" });
-      queryClient.invalidateQueries(["jobs", "job", jobId, "stats"]);
+      queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      queryClient.invalidateQueries({ queryKey: ["job", jobId] });
+      queryClient.invalidateQueries({ queryKey: ["stats"] });
       router.push("/jobs");
     },
   });
@@ -97,7 +105,9 @@ function EditJobForm({ jobId }: { jobId: string }) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="bg-muted p-8 rounded"
         >
-          <h2 className="capitalize font-semibold text-4xl mb-6">edit job</h2>
+          <h2 className="capitalize font-semibold text-4xl mb-6">
+            Job Details
+          </h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 items-start">
             <CustomFormField name="position" control={form.control} />
             <CustomFormField name="company" control={form.control} />
@@ -120,7 +130,7 @@ function EditJobForm({ jobId }: { jobId: string }) {
               className="self-end capitalize"
               disabled={isPending}
             >
-              {isPending ? "Updating..." : "Edit Job"}
+              {isPending ? "Updating..." : "Update Job"}
             </Button>
           </div>
         </form>
