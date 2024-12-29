@@ -36,7 +36,8 @@ model Job {
   dateApplied           DateTime?
   interviewStages       Int?                
   sentFollowupToRecruiter Boolean          @default(false)
-  jobSource             String?
+  jobSource             String
+  urlJobSource          String?            
 }
 
 model InterviewStage {

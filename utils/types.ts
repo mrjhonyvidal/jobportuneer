@@ -105,6 +105,8 @@ export type JobType = {
   interviewStages?: InterviewStageType[] | null;
   dateApplied?: Date | null;
   sentFollowupToRecruiter: boolean;
+  urlJobSource?: string | null;
+  jobSource: JobSourceType | string;
 };
 
 export type InterviewStageType = {
@@ -193,6 +195,9 @@ export const createAndEditJobSchema = z.object({
   workType: z.nativeEnum(WorkType, {
     message: "Work Type must be a valid type.",
   }),
+  jobSource: z
+    .string()
+    .min(2, { message: "Source must be at least 2 characters." }),
   employmentType: z.nativeEnum(EmploymentType, {
     message: "Employment Type must be a valid type.",
   }),
@@ -200,13 +205,19 @@ export const createAndEditJobSchema = z.object({
   salaryRange: z.string().nullable().optional(),
   salaryOffered: z.string().nullable().optional(),
   description: z.string().nullable().optional(),
-  experienceRequired: z.number().min(0).nullable().optional(),
+  experienceRequired: z.preprocess(
+    (value) => (value !== null && value !== undefined ? Number(value) : value),
+    z.number().min(0).nullable().optional()
+  ),
   priority: z.nativeEnum(PriorityType).nullable().optional(),
   requirements: z.array(z.string()).nullable().optional(),
   benefits: z.array(z.string()).nullable().optional(),
-  interviewStages: z.array(z.string()).nullable().optional(),
-  dateApplied: z.date().nullable().optional(),
+  dateApplied: z.preprocess(
+    (value) => (typeof value === "string" ? new Date(value) : value),
+    z.date().nullable().optional()
+  ),
   sentFollowupToRecruiter: z.boolean().optional(),
+  urlJobSource: z.string().nullable().optional(),
 });
 
 export type CreateAndEditJobType = z.infer<typeof createAndEditJobSchema>;

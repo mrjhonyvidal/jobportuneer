@@ -10,6 +10,7 @@ import {
   JobStatus,
   WorkType,
   EmploymentType,
+  JobSourceType,
 } from "./types";
 import { redirect } from "next/navigation";
 import { Prisma } from "@prisma/client";
@@ -90,6 +91,8 @@ export async function getAllJobsAction({
         benefits: true,
         dateApplied: true,
         sentFollowupToRecruiter: true,
+        jobSource: true,
+        urlJobSource: true,
       },
     });
 
@@ -107,6 +110,8 @@ export async function getAllJobsAction({
       status: job.status as JobStatus,
       workType: job.workType as WorkType,
       employmentType: job.employmentType as EmploymentType,
+      jobSource: job.jobSource as JobSourceType,
+      urlJobSource: job.urlJobSource || undefined,
     }));
 
     const count: number = await prisma.job.count({ where: whereClause });
@@ -132,9 +137,7 @@ export async function createJobAction(
         clerkId: userId,
         requirements: values.requirements || [],
         benefits: values.benefits || [],
-        interviewStages: values.interviewStages
-          ? values.interviewStages.length
-          : null,
+        urlJobSource: values.urlJobSource || null,
       },
       select: {
         id: true,
@@ -158,6 +161,8 @@ export async function createJobAction(
         benefits: true,
         dateApplied: true,
         sentFollowupToRecruiter: true,
+        jobSource: true,
+        urlJobSource: true,
       },
     });
 
@@ -175,6 +180,8 @@ export async function createJobAction(
       status: rawJob.status as JobStatus,
       workType: rawJob.workType as WorkType,
       employmentType: rawJob.employmentType as EmploymentType,
+      jobSource: rawJob.jobSource as JobSourceType,
+      urlJobSource: rawJob.urlJobSource || undefined,
     };
   } catch (error) {
     console.error(error);
@@ -210,6 +217,8 @@ export async function deleteJobAction(id: string): Promise<JobType | null> {
         benefits: true,
         dateApplied: true,
         sentFollowupToRecruiter: true,
+        jobSource: true,
+        urlJobSource: true,
       },
     });
 
@@ -227,6 +236,8 @@ export async function deleteJobAction(id: string): Promise<JobType | null> {
       status: rawJob.status as JobStatus,
       workType: rawJob.workType as WorkType,
       employmentType: rawJob.employmentType as EmploymentType,
+      jobSource: rawJob.jobSource as JobSourceType,
+      urlJobSource: rawJob.urlJobSource || undefined,
     };
   } catch (error) {
     console.error(error);
@@ -262,6 +273,8 @@ export async function getSingleJobAction(id: string): Promise<JobType | null> {
         benefits: true,
         dateApplied: true,
         sentFollowupToRecruiter: true,
+        jobSource: true,
+        urlJobSource: true,
       },
     });
 
@@ -284,6 +297,8 @@ export async function getSingleJobAction(id: string): Promise<JobType | null> {
       status: rawJob.status as JobStatus,
       workType: rawJob.workType as WorkType,
       employmentType: rawJob.employmentType as EmploymentType,
+      jobSource: rawJob.jobSource as JobSourceType,
+      urlJobSource: rawJob.urlJobSource || undefined,
     };
   } catch (error) {
     console.error(error);
@@ -304,9 +319,12 @@ export async function updateJobAction(
         ...values,
         requirements: values.requirements || [],
         benefits: values.benefits || [],
-        interviewStages: values.interviewStages
-          ? values.interviewStages.length
-          : null,
+        workType: values.workType,
+        employmentType: values.employmentType,
+        status: values.status,
+        priority: values.priority,
+        dateApplied: values.dateApplied,
+        urlJobSource: values.urlJobSource || null,
       },
       select: {
         id: true,
@@ -330,6 +348,8 @@ export async function updateJobAction(
         benefits: true,
         dateApplied: true,
         sentFollowupToRecruiter: true,
+        jobSource: true,
+        urlJobSource: true,
       },
     });
 
@@ -347,6 +367,8 @@ export async function updateJobAction(
       status: rawJob.status as JobStatus,
       workType: rawJob.workType as WorkType,
       employmentType: rawJob.employmentType as EmploymentType,
+      jobSource: rawJob.jobSource as JobSourceType,
+      urlJobSource: rawJob.urlJobSource || undefined,
     };
   } catch (error) {
     console.error(error);
