@@ -11,9 +11,9 @@ function Layout({ children }: PropsWithChildren) {
       <Navbar />
 
       {/* Main Layout */}
-      <main className="grid lg:grid-cols-6 min-h-screen">
+      <main className="flex flex-col lg:flex-row min-h-screen">
         {/* Sidebar: hidden on small screens */}
-        <div className="hidden lg:block lg:col-span-1 bg-muted">
+        <div className="hidden lg:flex lg:w-1/5 bg-muted">
           <SidebarProvider
             style={
               {
@@ -27,12 +27,11 @@ function Layout({ children }: PropsWithChildren) {
         </div>
 
         {/* Main Content */}
-        <div className="lg:col-span-5 flex flex-col">
-          <div className="flex-1 py-8 px-4 sm:px-8 lg:px-16">{children}</div>
+        <div className="flex-1 w-full lg:w-4/5 flex flex-col">
+          <div className="flex-1 py-4 sm:py-8 px-4 sm:px-8 lg:px-16">
+            {children}
+          </div>
         </div>
-
-        {/* Optional right column */}
-        {/* <div className="hidden lg:block lg:col-span-1 bg-muted"></div> */}
       </main>
     </>
   );
