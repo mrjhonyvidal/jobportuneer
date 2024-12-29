@@ -1,9 +1,8 @@
 "use client";
 
+import React, { useRef, useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
-import { useState, useEffect } from "react";
-
 import {
   JobStatus,
   WorkType,
@@ -22,11 +21,10 @@ import { useRouter } from "next/navigation";
 
 import { CustomFormField, CustomFormSelect } from "./FormComponents";
 import { getSingleJobAction, updateJobAction } from "@/utils/actions";
+import { Trash, Plus, MoreHorizontal } from "lucide-react";
 import InterviewList from "./InterviewList";
 import JobDetailsSidebar from "./JobDetailsSidebar";
 import InterviewTipsSidebar from "./InterviewTipsSidebar";
-import { MoreHorizontal, Plus, Trash } from "lucide-react";
-import dayjs from "dayjs";
 
 function EditJobForm({ jobId }: { jobId: string }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -38,7 +36,10 @@ function EditJobForm({ jobId }: { jobId: string }) {
   const { toast } = useToast();
   const router = useRouter();
 
-  const { data, isLoading } = useQuery({
+  const requirementsInputRef = useRef<HTMLInputElement | null>(null);
+  const benefitsInputRef = useRef<HTMLInputElement | null>(null);
+
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["job", jobId],
     queryFn: () => getSingleJobAction(jobId),
   });
@@ -46,20 +47,13 @@ function EditJobForm({ jobId }: { jobId: string }) {
   const { mutate, isPending } = useMutation({
     mutationFn: (values: CreateAndEditJobType) =>
       updateJobAction(jobId, values),
-    onSuccess: (data) => {
-      if (!data) {
-        toast({ description: "There was an error updating the job." });
-        return;
-      }
+    onSuccess: () => {
       toast({ description: "Job Updated Successfully" });
-      queryClient.invalidateQueries({ queryKey: ["jobs"] });
       queryClient.invalidateQueries({ queryKey: ["job", jobId] });
-      queryClient.invalidateQueries({ queryKey: ["stats"] });
-      router.push("/jobs");
+      refetch(); // Ensure the latest data is fetched
     },
   });
 
-  // Define form default values
   const defaultValues = {
     position: "",
     company: "",
@@ -83,31 +77,19 @@ function EditJobForm({ jobId }: { jobId: string }) {
 
   const form = useForm<CreateAndEditJobType>({
     resolver: zodResolver(createAndEditJobSchema),
-    defaultValues: data
-      ? {
-          ...data,
-        }
-      : defaultValues, // Populate form with data if available
+    defaultValues: data || defaultValues,
   });
 
-  // Reactive watchers for `requirements` and `benefits`
+  // Update form values when `data` changes
+  useEffect(() => {
+    if (data) {
+      form.reset(data);
+    }
+  }, [data, form]);
+
   const requirements =
     useWatch({ control: form.control, name: "requirements" }) || [];
   const benefits = useWatch({ control: form.control, name: "benefits" }) || [];
-
-  if (isLoading) {
-    return (
-      <div className="animate-pulse">
-        <div className="h-4 bg-gray-300 rounded w-1/4 mb-4"></div>
-        <div className="h-6 bg-gray-300 rounded w-full mb-4"></div>
-        <div className="h-6 bg-gray-300 rounded w-3/4"></div>
-      </div>
-    );
-  }
-
-  if (!data) {
-    return <p>Error: Unable to load job data.</p>;
-  }
 
   const handleAddItem = (name: "requirements" | "benefits", value: string) => {
     if (value.trim()) {
@@ -128,18 +110,16 @@ function EditJobForm({ jobId }: { jobId: string }) {
   };
 
   const onSubmit = (values: CreateAndEditJobType) => {
-    console.log(values);
-    mutate({
-      ...values,
-      dateApplied: values.dateApplied
-        ? new Date(values.dateApplied) // Convert to Date object
-        : null,
-    });
+    mutate(values);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
-      {/* Button Section */}
+      {/* Top Actions Buttons Section */}
       <div className="flex justify-end items-center mb-6">
         <div className="flex gap-2">
           <Button
@@ -165,7 +145,6 @@ function EditJobForm({ jobId }: { jobId: string }) {
           </Button>
         </div>
       </div>
-
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -195,102 +174,113 @@ function EditJobForm({ jobId }: { jobId: string }) {
               type="date"
             />
 
-            {/* Requirements Section */}
-            <div className="col-span-full">
-              <h3 className="font-semibold mb-2">Requirements</h3>
-              <div className="flex flex-col gap-2">
-                {requirements.map((req: string, index: number) => (
-                  <div
-                    key={index}
-                    className="flex gap-2 items-center border border-gray-200 p-2 rounded"
-                  >
-                    <span>{req}</span>
+            {/* Requirements and Benefits Section */}
+            <div className="col-span-full grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <h3 className="font-semibold mb-2">Requirements</h3>
+                <div className="flex flex-col gap-2">
+                  {requirements.map((req: string, index: number) => (
+                    <div
+                      key={index}
+                      className="flex gap-2 items-center border border-gray-300 p-2 rounded bg-gray-50 shadow-sm"
+                    >
+                      <span className="truncate">{req}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveItem("requirements", index)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <Trash size={16} />
+                      </button>
+                    </div>
+                  ))}
+                  <div className="flex gap-2 items-center">
+                    <input
+                      type="text"
+                      placeholder="Add a requirement"
+                      ref={requirementsInputRef}
+                      className="flex-1 border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-indigo-500"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && requirementsInputRef.current) {
+                          e.preventDefault();
+                          handleAddItem(
+                            "requirements",
+                            requirementsInputRef.current.value
+                          );
+                          requirementsInputRef.current.value = "";
+                        }
+                      }}
+                    />
                     <button
                       type="button"
-                      onClick={() => handleRemoveItem("requirements", index)}
-                      className="text-red-500"
+                      className="bg-indigo-500 text-white p-2 rounded-lg hover:bg-indigo-600"
+                      onClick={() => {
+                        if (requirementsInputRef.current?.value) {
+                          handleAddItem(
+                            "requirements",
+                            requirementsInputRef.current.value
+                          );
+                          requirementsInputRef.current.value = "";
+                        }
+                      }}
                     >
-                      <Trash size={16} />
+                      <Plus size={16} />
                     </button>
                   </div>
-                ))}
-                <div className="flex gap-2 items-center">
-                  <input
-                    type="text"
-                    placeholder="Add a requirement"
-                    className="input flex-1"
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        handleAddItem("requirements", e.currentTarget.value);
-                        e.currentTarget.value = "";
-                      }
-                    }}
-                  />
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => {
-                      const input =
-                        document.querySelector<HTMLInputElement>(".input");
-                      if (input?.value) {
-                        handleAddItem("requirements", input.value);
-                        input.value = "";
-                      }
-                    }}
-                  >
-                    <Plus size={16} />
-                  </button>
                 </div>
               </div>
-            </div>
 
-            {/* Benefits Section */}
-            <div className="col-span-full">
-              <h3 className="font-semibold mb-2">Benefits</h3>
-              <div className="flex flex-col gap-2">
-                {benefits.map((ben: string, index: number) => (
-                  <div
-                    key={index}
-                    className="flex gap-2 items-center border border-gray-200 p-2 rounded"
-                  >
-                    <span>{ben}</span>
+              <div>
+                <h3 className="font-semibold mb-2">Benefits</h3>
+                <div className="flex flex-col gap-2">
+                  {benefits.map((ben: string, index: number) => (
+                    <div
+                      key={index}
+                      className="flex gap-2 items-center border border-gray-300 p-2 rounded bg-gray-50 shadow-sm"
+                    >
+                      <span className="truncate">{ben}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveItem("benefits", index)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <Trash size={16} />
+                      </button>
+                    </div>
+                  ))}
+                  <div className="flex gap-2 items-center">
+                    <input
+                      type="text"
+                      placeholder="Add a benefit"
+                      ref={benefitsInputRef}
+                      className="flex-1 border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-indigo-500"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && benefitsInputRef.current) {
+                          e.preventDefault();
+                          handleAddItem(
+                            "benefits",
+                            benefitsInputRef.current.value
+                          );
+                          benefitsInputRef.current.value = "";
+                        }
+                      }}
+                    />
                     <button
                       type="button"
-                      onClick={() => handleRemoveItem("benefits", index)}
-                      className="text-red-500"
+                      className="bg-indigo-500 text-white p-2 rounded-lg hover:bg-indigo-600"
+                      onClick={() => {
+                        if (benefitsInputRef.current?.value) {
+                          handleAddItem(
+                            "benefits",
+                            benefitsInputRef.current.value
+                          );
+                          benefitsInputRef.current.value = "";
+                        }
+                      }}
                     >
-                      <Trash size={16} />
+                      <Plus size={16} />
                     </button>
                   </div>
-                ))}
-                <div className="flex gap-2 items-center">
-                  <input
-                    type="text"
-                    placeholder="Add a benefit"
-                    className="input flex-1"
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        handleAddItem("benefits", e.currentTarget.value);
-                        e.currentTarget.value = "";
-                      }
-                    }}
-                  />
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => {
-                      const input =
-                        document.querySelector<HTMLInputElement>(".input");
-                      if (input?.value) {
-                        handleAddItem("benefits", input.value);
-                        input.value = "";
-                      }
-                    }}
-                  >
-                    <Plus size={16} />
-                  </button>
                 </div>
               </div>
             </div>
@@ -325,19 +315,11 @@ function EditJobForm({ jobId }: { jobId: string }) {
               labelText="Source"
               items={Object.values(JobSourceType)}
             />
-            {form.watch("jobSource") && (
-              <CustomFormField
-                name="urlJobSource"
-                control={form.control}
-                labelText="URL to the Job Post"
-                placeholder="https://example.com"
-              />
-            )}
             <CustomFormField
-              name="sentFollowupToRecruiter"
+              name="urlJobSource"
               control={form.control}
-              labelText="Followed Up with Recruiter"
-              type="checkbox"
+              labelText="URL to the Job Post"
+              placeholder="https://example.com"
             />
             <Button
               type="submit"

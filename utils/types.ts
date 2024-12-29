@@ -6,7 +6,7 @@ export enum JobStatus {
   Pending = "Pending",
   Interview = "Interview",
   Rejected = "Rejected",
-  DiscussingOffer = "Discussing Offer",
+  DiscussingOffer = "DiscussingOffer",
   Accepted = "Accepted",
   Declined = "Declined",
 }

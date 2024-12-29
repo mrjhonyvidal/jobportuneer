@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/components/ui/use-toast";
@@ -21,13 +21,15 @@ import { JobSourceModal } from "./JobSourceModal";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { CustomFormField, CustomFormSelect } from "./FormComponents";
+import { Trash, Plus } from "lucide-react";
 
 function CreateJobForm() {
+  const requirementsInputRef = useRef<HTMLInputElement | null>(null);
+  const benefitsInputRef = useRef<HTMLInputElement | null>(null);
+
   const [isModalOpen, setModalOpen] = useState(true);
   const [jobSource, setJobSource] = useState<JobSourceType | "Other">("Other");
   const [urlJobSource, setUrlJobSource] = useState("");
-  const [prefillData, setPrefillData] =
-    useState<Partial<CreateAndEditJobType> | null>(null);
 
   const { toast } = useToast();
   const form = useForm<CreateAndEditJobType>({
@@ -52,7 +54,6 @@ function CreateJobForm() {
       sentFollowupToRecruiter: false,
       jobSource: jobSource,
       urlJobSource: urlJobSource,
-      ...prefillData,
     },
   });
 
@@ -68,19 +69,39 @@ function CreateJobForm() {
     },
   });
 
+  const handleAddItem = (name: "requirements" | "benefits", value: string) => {
+    if (value.trim()) {
+      const current = form.getValues(name) || [];
+      form.setValue(name, [...current, value.trim()]);
+    }
+  };
+
+  const handleRemoveItem = (
+    name: "requirements" | "benefits",
+    index: number
+  ) => {
+    const current = form.getValues(name) || [];
+    form.setValue(
+      name,
+      current.filter((_, i) => i !== index)
+    );
+  };
+
   const handleModalSubmit = (source: string, url: string) => {
-    form.setValue("jobSource", source); // Update form field
-    form.setValue("urlJobSource", url); // Update form field
-    setModalOpen(false); // Close modal
+    form.setValue("jobSource", source);
+    form.setValue("urlJobSource", url);
+    setModalOpen(false);
   };
 
   const onSubmit = (values: CreateAndEditJobType) => {
     mutate(values);
   };
 
+  const requirements = form.watch("requirements") || [];
+  const benefits = form.watch("benefits") || [];
+
   return (
     <>
-      {/* Modal for job source */}
       <JobSourceModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
@@ -101,6 +122,136 @@ function CreateJobForm() {
               <CustomFormField name="salary" control={form.control} />
               <CustomFormField name="salaryAsked" control={form.control} />
               <CustomFormField name="salaryRange" control={form.control} />
+              <CustomFormField name="description" control={form.control} />
+              <CustomFormField
+                name="experienceRequired"
+                control={form.control}
+                labelText="Experience Required (Years)"
+                type="number"
+              />
+              <CustomFormField
+                name="dateApplied"
+                control={form.control}
+                labelText="Date Applied"
+                type="date"
+              />
+
+              {/* Requirements and Benefits Section */}
+              <div className="col-span-full grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h3 className="font-semibold mb-2">Requirements</h3>
+                  <div className="flex flex-col gap-2">
+                    {requirements.map((req: string, index: number) => (
+                      <div
+                        key={index}
+                        className="flex gap-2 items-center border border-gray-300 p-2 rounded bg-gray-50 shadow-sm"
+                      >
+                        <span className="truncate">{req}</span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleRemoveItem("requirements", index)
+                          }
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <Trash size={16} />
+                        </button>
+                      </div>
+                    ))}
+                    <div className="flex gap-2 items-center">
+                      <input
+                        type="text"
+                        placeholder="Add a requirement"
+                        ref={requirementsInputRef}
+                        className="flex-1 border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-indigo-500"
+                        onKeyDown={(e) => {
+                          if (
+                            e.key === "Enter" &&
+                            requirementsInputRef.current
+                          ) {
+                            e.preventDefault();
+                            handleAddItem(
+                              "requirements",
+                              requirementsInputRef.current.value
+                            );
+                            requirementsInputRef.current.value = "";
+                          }
+                        }}
+                      />
+                      <button
+                        type="button"
+                        className="bg-indigo-500 text-white p-2 rounded-lg hover:bg-indigo-600"
+                        onClick={() => {
+                          if (requirementsInputRef.current?.value) {
+                            handleAddItem(
+                              "requirements",
+                              requirementsInputRef.current.value
+                            );
+                            requirementsInputRef.current.value = "";
+                          }
+                        }}
+                      >
+                        <Plus size={16} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-2">Benefits</h3>
+                  <div className="flex flex-col gap-2">
+                    {benefits.map((ben: string, index: number) => (
+                      <div
+                        key={index}
+                        className="flex gap-2 items-center border border-gray-300 p-2 rounded bg-gray-50 shadow-sm"
+                      >
+                        <span className="truncate">{ben}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveItem("benefits", index)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <Trash size={16} />
+                        </button>
+                      </div>
+                    ))}
+                    <div className="flex gap-2 items-center">
+                      <input
+                        type="text"
+                        placeholder="Add a benefit"
+                        ref={benefitsInputRef}
+                        className="flex-1 border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-indigo-500"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && benefitsInputRef.current) {
+                            e.preventDefault();
+                            handleAddItem(
+                              "benefits",
+                              benefitsInputRef.current.value
+                            );
+                            benefitsInputRef.current.value = "";
+                          }
+                        }}
+                      />
+                      <button
+                        type="button"
+                        className="bg-indigo-500 text-white p-2 rounded-lg hover:bg-indigo-600"
+                        onClick={() => {
+                          if (benefitsInputRef.current?.value) {
+                            handleAddItem(
+                              "benefits",
+                              benefitsInputRef.current.value
+                            );
+                            benefitsInputRef.current.value = "";
+                          }
+                        }}
+                      >
+                        <Plus size={16} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <CustomFormSelect
                 name="status"
                 control={form.control}
@@ -142,7 +293,7 @@ function CreateJobForm() {
                 className="self-end capitalize"
                 disabled={isPending}
               >
-                {isPending ? "Loading" : "Add Job"}
+                {isPending ? "Loading..." : "Add Job"}
               </Button>
             </div>
           </form>
