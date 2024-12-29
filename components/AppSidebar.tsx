@@ -46,7 +46,7 @@ export default function AppSidebar() {
               <SidebarMenuItem key={link.href}>
                 <Link
                   href={link.href}
-                  className={`flex items-center gap-2 px-4 py-2 rounded ${
+                  className={`flex items-center mt-3 gap-2 px-4 py-2 rounded ${
                     pathname === link.href
                       ? "bg-primary text-white"
                       : "hover:bg-primary hover:text-white"

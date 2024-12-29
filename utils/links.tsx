@@ -30,7 +30,7 @@ const links: NavLink[] = [
     icon: <Layers size={24} />,
   },
   {
-    href: "/profile",
+    href: "/preferences",
     label: "Preferences",
     icon: <Cog size={24} />,
   },

@@ -36,6 +36,7 @@ model Job {
   dateApplied           DateTime?
   interviewStages       Int?                
   sentFollowupToRecruiter Boolean          @default(false)
+  jobSource             String?
 }
 
 model InterviewStage {
@@ -46,23 +47,52 @@ model InterviewStage {
   jobId                 String             // Relation field
   stageName             String
   description           String?
-  status                String             // Enum: Pending, Completed, Cancelled
+  status                String             // Enum: Pending, Done-Waiting Response, Passed, Cancelled
   scheduledDate         DateTime?
   durationMinutes       Int?
   notes                 String?
 }
 
+model Preference {
+  id                        String    @id @default(uuid())
+  clerkId                   String    // User ID (foreign key to users table)
+  followUpFrequencyDays     Int?      // Follow-up frequency in days
+  remindBeforeInterviewDays Int?      // Days before an interview reminder
+  jobApplicationDeadlineDays Int?     // Days before a job application deadline reminder
+  newJobMatches             Boolean   @default(false) // Notify about new job matches
+  notifyJobStatusChange     Boolean   @default(true)  // Notify on job status change
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
+}
+
+model NotificationChannel {
+  id          String    @id @default(uuid())
+  preferenceId String    // Foreign key to Preference
+  channel     String     // Enum: EMAIL, SMS, PUSH
+  enabled     Boolean    @default(false)
+}
+
+model PreferenceChangeLog {
+  id          String    @id @default(uuid())
+  preferenceId String    // Foreign key to Preference
+  changedBy   String     // Clerk ID or system identifier
+  field       String     // Changed field name
+  oldValue    String?
+  newValue    String
+  timestamp   DateTime   @default(now())
+}
+
 model Reminder {
-  id                    String             @id @default(uuid())
-  clerkId               String
-  createdAt             DateTime           @default(now())
-  updatedAt             DateTime           @updatedAt
-  jobId                 String             // Relation field
-  title                 String
-  reminderDate          DateTime
-  reminderType          String             // Enum: Email, SMS, Notification
-  status                String             // Enum: Active, Completed, Cancelled
-  notes                 String?
+  id              String    @id @default(uuid())
+  clerkId         String    // User ID (foreign key to users table)
+  jobId           String
+  reminderDate    DateTime  // When the notification should be sent
+  type            String    // Enum: Follow-Up, Interview Reminder, Job Application Deadline, etc.
+  deliveryMethod  String    // Enum: Email, SMS, Push Notification
+  status          String    @default("PENDING") // Enum: PENDING, SENT, FAILED
+  notes           String?   // Optional notes for the reminder
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }
 
 model Contact {
@@ -89,15 +119,4 @@ model Tip {
   title                 String
   content               String
   category              String             // Enum: Resume, Interview, Negotiation, etc.
-}
-
-model Preference {
-  id                    String             @id @default(uuid())
-  clerkId               String             @unique
-  createdAt             DateTime           @default(now())
-  updatedAt             DateTime           @updatedAt
-  followUpFrequencyDays Int                @default(7)
-  remindBeforeInterview Int                @default(2)
-  notifyJobStatusChange Boolean            @default(true)
-  customPreferences     Json?
 }

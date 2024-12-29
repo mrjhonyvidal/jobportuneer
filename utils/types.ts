@@ -29,7 +29,8 @@ export enum EmploymentType {
 
 export enum InterviewStageStatus {
   Pending = "Pending",
-  Completed = "Completed",
+  Passed = "Passed",
+  DoneWaitingResponse = "Done-Waiting Response",
   Cancelled = "Cancelled",
 }
 
