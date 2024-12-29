@@ -1,8 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
+import { useState, useEffect } from "react";
 
 import {
   JobStatus,
@@ -11,6 +11,7 @@ import {
   createAndEditJobSchema,
   CreateAndEditJobType,
   PriorityType,
+  JobSourceType,
 } from "@/utils/types";
 
 import { Button } from "@/components/ui/button";
@@ -24,7 +25,8 @@ import { getSingleJobAction, updateJobAction } from "@/utils/actions";
 import InterviewList from "./InterviewList";
 import JobDetailsSidebar from "./JobDetailsSidebar";
 import InterviewTipsSidebar from "./InterviewTipsSidebar";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Plus, Trash } from "lucide-react";
+import dayjs from "dayjs";
 
 function EditJobForm({ jobId }: { jobId: string }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -36,7 +38,7 @@ function EditJobForm({ jobId }: { jobId: string }) {
   const { toast } = useToast();
   const router = useRouter();
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["job", jobId],
     queryFn: () => getSingleJobAction(jobId),
   });
@@ -46,12 +48,10 @@ function EditJobForm({ jobId }: { jobId: string }) {
       updateJobAction(jobId, values),
     onSuccess: (data) => {
       if (!data) {
-        toast({
-          description: "There was an error",
-        });
+        toast({ description: "There was an error updating the job." });
         return;
       }
-      toast({ description: "Job Updated" });
+      toast({ description: "Job Updated Successfully" });
       queryClient.invalidateQueries({ queryKey: ["jobs"] });
       queryClient.invalidateQueries({ queryKey: ["job", jobId] });
       queryClient.invalidateQueries({ queryKey: ["stats"] });
@@ -59,25 +59,83 @@ function EditJobForm({ jobId }: { jobId: string }) {
     },
   });
 
+  // Define form default values
+  const defaultValues = {
+    position: "",
+    company: "",
+    location: "",
+    salary: "",
+    salaryAsked: "",
+    salaryRange: "",
+    description: "",
+    experienceRequired: null,
+    requirements: [],
+    benefits: [],
+    dateApplied: null,
+    sentFollowupToRecruiter: false,
+    workType: WorkType.Hybrid,
+    jobSource: JobSourceType.Other,
+    urlJobSource: "",
+    status: JobStatus.Pending,
+    employmentType: EmploymentType.FullTime,
+    priority: PriorityType.GreatOpportunity,
+  };
+
   const form = useForm<CreateAndEditJobType>({
     resolver: zodResolver(createAndEditJobSchema),
-    defaultValues: {
-      position: data?.position || "",
-      company: data?.company || "",
-      location: data?.location || "",
-      salary: data?.salary || "",
-      salaryAsked: data?.salaryAsked || "",
-      salaryRange: data?.salaryRange || "",
-      workType: (data?.workType as WorkType) || WorkType.Hybrid,
-      status: (data?.status as JobStatus) || JobStatus.Pending,
-      employmentType:
-        (data?.employmentType as EmploymentType) || EmploymentType.FullTime,
-      priority:
-        (data?.priority as PriorityType) || PriorityType.GreatOpportunity,
-    },
+    defaultValues: data
+      ? {
+          ...data,
+        }
+      : defaultValues, // Populate form with data if available
   });
 
-  const onSubmit = (values: CreateAndEditJobType) => mutate(values);
+  // Reactive watchers for `requirements` and `benefits`
+  const requirements =
+    useWatch({ control: form.control, name: "requirements" }) || [];
+  const benefits = useWatch({ control: form.control, name: "benefits" }) || [];
+
+  if (isLoading) {
+    return (
+      <div className="animate-pulse">
+        <div className="h-4 bg-gray-300 rounded w-1/4 mb-4"></div>
+        <div className="h-6 bg-gray-300 rounded w-full mb-4"></div>
+        <div className="h-6 bg-gray-300 rounded w-3/4"></div>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return <p>Error: Unable to load job data.</p>;
+  }
+
+  const handleAddItem = (name: "requirements" | "benefits", value: string) => {
+    if (value.trim()) {
+      const current = form.getValues(name) || [];
+      form.setValue(name, [...current, value.trim()]);
+    }
+  };
+
+  const handleRemoveItem = (
+    name: "requirements" | "benefits",
+    index: number
+  ) => {
+    const current = form.getValues(name) || [];
+    form.setValue(
+      name,
+      current.filter((_, i) => i !== index)
+    );
+  };
+
+  const onSubmit = (values: CreateAndEditJobType) => {
+    console.log(values);
+    mutate({
+      ...values,
+      dateApplied: values.dateApplied
+        ? new Date(values.dateApplied) // Convert to Date object
+        : null,
+    });
+  };
 
   return (
     <>
@@ -114,7 +172,7 @@ function EditJobForm({ jobId }: { jobId: string }) {
           className="bg-muted p-8 rounded"
         >
           <h2 className="capitalize font-semibold text-4xl mb-6">
-            Job Details
+            Edit Job Details
           </h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 items-start">
             <CustomFormField name="position" control={form.control} />
@@ -123,6 +181,120 @@ function EditJobForm({ jobId }: { jobId: string }) {
             <CustomFormField name="salary" control={form.control} />
             <CustomFormField name="salaryAsked" control={form.control} />
             <CustomFormField name="salaryRange" control={form.control} />
+            <CustomFormField name="description" control={form.control} />
+            <CustomFormField
+              name="experienceRequired"
+              control={form.control}
+              labelText="Experience Required (Years)"
+              type="number"
+            />
+            <CustomFormField
+              name="dateApplied"
+              control={form.control}
+              labelText="Date Applied"
+              type="date"
+            />
+
+            {/* Requirements Section */}
+            <div className="col-span-full">
+              <h3 className="font-semibold mb-2">Requirements</h3>
+              <div className="flex flex-col gap-2">
+                {requirements.map((req: string, index: number) => (
+                  <div
+                    key={index}
+                    className="flex gap-2 items-center border border-gray-200 p-2 rounded"
+                  >
+                    <span>{req}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveItem("requirements", index)}
+                      className="text-red-500"
+                    >
+                      <Trash size={16} />
+                    </button>
+                  </div>
+                ))}
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="text"
+                    placeholder="Add a requirement"
+                    className="input flex-1"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleAddItem("requirements", e.currentTarget.value);
+                        e.currentTarget.value = "";
+                      }
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      const input =
+                        document.querySelector<HTMLInputElement>(".input");
+                      if (input?.value) {
+                        handleAddItem("requirements", input.value);
+                        input.value = "";
+                      }
+                    }}
+                  >
+                    <Plus size={16} />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Benefits Section */}
+            <div className="col-span-full">
+              <h3 className="font-semibold mb-2">Benefits</h3>
+              <div className="flex flex-col gap-2">
+                {benefits.map((ben: string, index: number) => (
+                  <div
+                    key={index}
+                    className="flex gap-2 items-center border border-gray-200 p-2 rounded"
+                  >
+                    <span>{ben}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveItem("benefits", index)}
+                      className="text-red-500"
+                    >
+                      <Trash size={16} />
+                    </button>
+                  </div>
+                ))}
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="text"
+                    placeholder="Add a benefit"
+                    className="input flex-1"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleAddItem("benefits", e.currentTarget.value);
+                        e.currentTarget.value = "";
+                      }
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      const input =
+                        document.querySelector<HTMLInputElement>(".input");
+                      if (input?.value) {
+                        handleAddItem("benefits", input.value);
+                        input.value = "";
+                      }
+                    }}
+                  >
+                    <Plus size={16} />
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <CustomFormSelect
               name="status"
               control={form.control}
@@ -146,6 +318,26 @@ function EditJobForm({ jobId }: { jobId: string }) {
               control={form.control}
               labelText="Priority"
               items={Object.values(PriorityType)}
+            />
+            <CustomFormSelect
+              name="jobSource"
+              control={form.control}
+              labelText="Source"
+              items={Object.values(JobSourceType)}
+            />
+            {form.watch("jobSource") && (
+              <CustomFormField
+                name="urlJobSource"
+                control={form.control}
+                labelText="URL to the Job Post"
+                placeholder="https://example.com"
+              />
+            )}
+            <CustomFormField
+              name="sentFollowupToRecruiter"
+              control={form.control}
+              labelText="Followed Up with Recruiter"
+              type="checkbox"
             />
             <Button
               type="submit"
@@ -205,4 +397,5 @@ function EditJobForm({ jobId }: { jobId: string }) {
     </>
   );
 }
+
 export default EditJobForm;

@@ -18,18 +18,42 @@ import { Input } from "./ui/input";
 type CustomFormFieldProps = {
   name: string;
   control: Control<any>;
+  labelText?: string; // Optional label text for the field
+  type?: string; // Field input type (e.g., text, number, date, checkbox)
+  condition?: boolean; // Optional condition to show/hide the field
+  placeholder?: string; // Optional placeholder for the input field
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; // Optional custom onChange handler
 };
 
-export function CustomFormField({ name, control }: CustomFormFieldProps) {
+export function CustomFormField({
+  name,
+  control,
+  labelText,
+  type = "text", // Default input type
+  condition = true, // Default to always render
+  placeholder = "", // Default to an empty placeholder
+  onChange,
+}: CustomFormFieldProps) {
+  // Render only if the condition is true
+  if (!condition) return null;
+
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="capitalize">{name}</FormLabel>
+          <FormLabel className="capitalize">{labelText || name}</FormLabel>
           <FormControl>
-            <Input {...field} />
+            <Input
+              {...field}
+              type={type}
+              placeholder={placeholder} // Add the optional placeholder
+              onChange={(e) => {
+                field.onChange(e); // Ensure React Hook Form handles changes
+                onChange?.(e); // Call custom onChange if provided
+              }}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -41,8 +65,9 @@ export function CustomFormField({ name, control }: CustomFormFieldProps) {
 type CustomFormSelectProps = {
   name: string;
   control: Control<any>;
-  items: string[];
-  labelText?: string;
+  items: string[]; // List of items for the select dropdown
+  labelText?: string; // Optional label text
+  condition?: boolean; // Optional condition to show/hide the field
 };
 
 export function CustomFormSelect({
@@ -50,7 +75,11 @@ export function CustomFormSelect({
   control,
   items,
   labelText,
+  condition = true, // Default to always render
 }: CustomFormSelectProps) {
+  // Render only if the condition is true
+  if (!condition) return null;
+
   return (
     <FormField
       control={control}
@@ -58,27 +87,31 @@ export function CustomFormSelect({
       render={({ field }) => (
         <FormItem>
           <FormLabel className="capitalize">{labelText || name}</FormLabel>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select
+            value={field.value || ""}
+            onValueChange={(value) => field.onChange(value)}
+          >
             <FormControl>
               <SelectTrigger>
-                <SelectValue />
+                <SelectValue
+                  placeholder={`Select ${labelText || name}`}
+                  defaultValue={field.value || ""}
+                />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {items.map((item) => {
-                return (
-                  <SelectItem key={item} value={item}>
-                    {item}
-                  </SelectItem>
-                );
-              })}
+              {items.map((item) => (
+                <SelectItem key={item} value={item}>
+                  {item}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
-
           <FormMessage />
         </FormItem>
       )}
     />
   );
 }
+
 export default CustomFormSelect;
