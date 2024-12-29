@@ -35,13 +35,13 @@ export default function PreferencesPage() {
   const form = useForm<PreferenceFormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      enableNotifications: false,
+      enableNotifications: true,
       followUpFrequencyDays: 7,
       remindBeforeInterview: 3,
-      jobApplicationDeadlineReminder: false,
+      jobApplicationDeadlineReminder: true,
       jobApplicationDeadlineDays: 5,
-      newJobMatches: false,
-      interviewFollowUpReminder: false,
+      newJobMatches: true,
+      interviewFollowUpReminder: true,
       interviewFollowUpDays: 3,
       notifyJobStatusChange: true,
     },
