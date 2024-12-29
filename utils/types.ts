@@ -11,6 +11,20 @@ export enum JobStatus {
   Declined = "Declined",
 }
 
+export enum JobSourceType {
+  LinkedIn = "LinkedIn",
+  Indeed = "Indeed",
+  Glassdoor = "Glassdoor",
+  Monster = "Monster",
+  AngelList = "AngelList",
+  SimplyHired = "SimplyHired",
+  Dice = "Dice",
+  Hired = "Hired",
+  CareerBuilder = "CareerBuilder",
+  YCombinator = "YCombinator",
+  Other = "Other",
+}
+
 export enum WorkType {
   Hybrid = "Hybrid",
   Onsite = "Onsite",

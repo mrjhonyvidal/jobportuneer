@@ -119,7 +119,7 @@ export default function PreferencesPage() {
                     Notify Job Status Change
                   </FormLabel>
                   <FormDescription>
-                    Receive notifications when a job's status changes.
+                    Receive notifications when a job&apos;s status changes.
                   </FormDescription>
                 </div>
                 <FormControl>
@@ -177,7 +177,7 @@ export default function PreferencesPage() {
                       />
                     </FormControl>
                     <FormDescription>
-                      Number of days before an interview you'd like to receive a
+                      Number of days before an interview youd like to receive a
                       reminder.
                     </FormDescription>
                   </FormItem>
