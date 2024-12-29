@@ -34,11 +34,6 @@ const links: NavLink[] = [
     label: "Preferences",
     icon: <Cog size={24} />,
   },
-  {
-    href: "/win-win",
-    label: "Collaborate",
-    icon: <Rocket size={24} />,
-  },
 ];
 
 export default links;

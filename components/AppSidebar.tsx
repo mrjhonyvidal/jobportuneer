@@ -26,9 +26,9 @@ export default function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <Sidebar className="bg-muted h-full border-none shadow-none">
+    <Sidebar className="h-full shadow-sm">
       {/* Sidebar Header */}
-      <SidebarHeader className="p-4 bg-muted">
+      <SidebarHeader className="p-4 ">
         <Link href="/jobs">
           <Image
             src={Logo}
@@ -39,7 +39,7 @@ export default function AppSidebar() {
       </SidebarHeader>
 
       {/* Sidebar Content */}
-      <SidebarContent className="bg-muted">
+      <SidebarContent>
         <SidebarMenu className="mt-5">
           <SidebarGroup>
             {links.map((link) => (

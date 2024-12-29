@@ -94,6 +94,9 @@ function CreateJobForm() {
   };
 
   const onSubmit = (values: CreateAndEditJobType) => {
+    if (values.dateApplied) {
+      values.dateApplied = new Date(values.dateApplied);
+    }
     mutate(values);
   };
 

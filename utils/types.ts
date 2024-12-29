@@ -120,7 +120,8 @@ export type InterviewStageType = {
   status: InterviewStageStatus;
   scheduledDate?: Date | null;
   durationMinutes?: number | null;
-  notes?: string | null;
+  interviewNotes?: string | null;
+  feedbackNotes?: string | null;
   tips?: TipType[] | null;
 };
 

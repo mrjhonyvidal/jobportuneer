@@ -51,7 +51,8 @@ model InterviewStage {
   status                String             // Enum: Pending, Done-Waiting Response, Passed, Cancelled
   scheduledDate         DateTime?
   durationMinutes       Int?
-  notes                 String?
+  interviewNotes        String?
+  feedbackNotes         String?
 }
 
 model Preference {

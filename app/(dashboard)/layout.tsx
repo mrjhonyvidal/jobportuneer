@@ -13,15 +13,8 @@ function Layout({ children }: PropsWithChildren) {
       {/* Main Layout */}
       <main className="flex flex-col lg:flex-row min-h-screen">
         {/* Sidebar: hidden on small screens */}
-        <div className="hidden lg:flex lg:w-1/5 bg-muted">
-          <SidebarProvider
-            style={
-              {
-                "--sidebar-width": "20rem",
-                "--sidebar-width-mobile": "20rem",
-              } as React.CSSProperties
-            }
-          >
+        <div className="hidden lg:flex">
+          <SidebarProvider>
             <AppSidebar />
           </SidebarProvider>
         </div>

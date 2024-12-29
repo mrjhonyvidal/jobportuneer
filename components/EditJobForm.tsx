@@ -77,7 +77,11 @@ function EditJobForm({ jobId }: { jobId: string }) {
 
   const form = useForm<CreateAndEditJobType>({
     resolver: zodResolver(createAndEditJobSchema),
-    defaultValues: data || defaultValues,
+    defaultValues: {
+      ...defaultValues,
+      ...data,
+      dateApplied: data?.dateApplied ? new Date(data.dateApplied) : null,
+    },
   });
 
   // Update form values when `data` changes
@@ -110,6 +114,9 @@ function EditJobForm({ jobId }: { jobId: string }) {
   };
 
   const onSubmit = (values: CreateAndEditJobType) => {
+    if (values.dateApplied) {
+      values.dateApplied = new Date(values.dateApplied);
+    }
     mutate(values);
   };
 
@@ -172,6 +179,13 @@ function EditJobForm({ jobId }: { jobId: string }) {
               control={form.control}
               labelText="Date Applied"
               type="date"
+              value={
+                form.getValues("dateApplied")
+                  ? new Date(form.getValues("dateApplied") as Date)
+                      .toISOString()
+                      .split("T")[0]
+                  : ""
+              }
             />
 
             {/* Requirements and Benefits Section */}

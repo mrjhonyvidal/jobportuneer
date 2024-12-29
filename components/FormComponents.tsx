@@ -22,6 +22,7 @@ type CustomFormFieldProps = {
   type?: string; // Field input type (e.g., text, number, date, checkbox)
   condition?: boolean; // Optional condition to show/hide the field
   placeholder?: string; // Optional placeholder for the input field
+  value?: string; // Optional custom value for controlled fields
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; // Optional custom onChange handler
 };
 
@@ -32,6 +33,7 @@ export function CustomFormField({
   type = "text", // Default input type
   condition = true, // Default to always render
   placeholder = "", // Default to an empty placeholder
+  value,
   onChange,
 }: CustomFormFieldProps) {
   // Render only if the condition is true
@@ -49,6 +51,7 @@ export function CustomFormField({
               {...field}
               type={type}
               placeholder={placeholder} // Add the optional placeholder
+              value={value !== undefined ? value : field.value} // Use custom value if provided
               onChange={(e) => {
                 field.onChange(e); // Ensure React Hook Form handles changes
                 onChange?.(e); // Call custom onChange if provided
