@@ -51,7 +51,7 @@ export function JobSourceModal({
       <DialogContent>
         <DialogTitle>Add Job Source</DialogTitle>
         <DialogDescription>
-          Select a source and provide a URL to the job post.
+          Provide a source and a link to the job post you&apos;d like to track.
         </DialogDescription>
 
         {/* Job Source Dropdown */}
@@ -62,7 +62,7 @@ export function JobSourceModal({
           }}
         >
           <SelectTrigger className="w-full mt-4">
-            {sourceType || "Select Job Source"}
+            {sourceType || "Select a job source"}
           </SelectTrigger>
           <SelectContent>
             {Object.values(JobSourceType).map((type) => (
@@ -75,7 +75,7 @@ export function JobSourceModal({
 
         {/* URL Input Field */}
         <Input
-          placeholder="URL to the job post"
+          placeholder="Paste the job post URL here"
           value={urlJobSource}
           onChange={(e) => {
             setUrlJobSource(e.target.value);
@@ -88,9 +88,9 @@ export function JobSourceModal({
         {/* Buttons */}
         <div className="flex justify-between gap-2 mt-6">
           <Button variant="outline" onClick={onClose}>
-            Skip
+            I&apos;ll add it later
           </Button>
-          <Button onClick={handleModalSubmit}>Submit</Button>
+          <Button onClick={handleModalSubmit}>Save Job Source</Button>
         </div>
       </DialogContent>
     </Dialog>

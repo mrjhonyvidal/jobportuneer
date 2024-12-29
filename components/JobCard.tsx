@@ -1,4 +1,4 @@
-import { JobType } from "@/utils/types";
+import { JobType, JobStatus } from "@/utils/types";
 import { MapPin, Briefcase, CalendarDays, RadioTower } from "lucide-react";
 
 import Link from "next/link";
@@ -17,7 +17,14 @@ import JobInfo from "./JobInfo";
 import DeleteJobButton from "./DeleteJobButton";
 
 function JobCard({ job, onClick }: { job: JobType; onClick: () => void }) {
-  const date = new Date(job.createdAt).toLocaleDateString();
+  const date = job.dateApplied
+    ? new Date(job.dateApplied).toLocaleDateString()
+    : new Date(job.updatedAt).toLocaleDateString();
+  const label = job.dateApplied ? "Date Applied" : "Last Update";
+
+  const badgeClassName =
+    job.status === JobStatus.Pending ? "bg-secondary text-white" : "";
+
   return (
     <Card className="bg-muted cursor-pointer">
       <CardHeader onClick={onClick}>
@@ -28,8 +35,8 @@ function JobCard({ job, onClick }: { job: JobType; onClick: () => void }) {
       <CardContent className="mt-4 grid grid-cols-2 gap-4" onClick={onClick}>
         <JobInfo icon={<Briefcase />} text={job.employmentType} />
         <JobInfo icon={<MapPin />} text={job.location} />
-        <JobInfo icon={<CalendarDays />} text={date} />
-        <Badge className="w-32 justify-center">
+        <JobInfo icon={<CalendarDays />} text={`${label}: ${date}`} />
+        <Badge className={`w-32 justify-center ${badgeClassName}`}>
           <JobInfo
             icon={<RadioTower className="w-4 h-4" />}
             text={job.status}
@@ -45,4 +52,5 @@ function JobCard({ job, onClick }: { job: JobType; onClick: () => void }) {
     </Card>
   );
 }
+
 export default JobCard;

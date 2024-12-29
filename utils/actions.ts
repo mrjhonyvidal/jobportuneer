@@ -98,6 +98,7 @@ export async function getAllJobsAction({
 
     const jobs: JobType[] = rawJobs.map((job) => ({
       ...job,
+      salary: job.salary || undefined,
       salaryAsked: job.salaryAsked || undefined,
       salaryRange: job.salaryRange || undefined,
       salaryOffered: job.salaryOffered || undefined,
@@ -168,6 +169,7 @@ export async function createJobAction(
 
     return {
       ...rawJob,
+      salary: rawJob.salary || undefined,
       salaryAsked: rawJob.salaryAsked || undefined,
       salaryRange: rawJob.salaryRange || undefined,
       salaryOffered: rawJob.salaryOffered || undefined,
@@ -224,6 +226,7 @@ export async function deleteJobAction(id: string): Promise<JobType | null> {
 
     return {
       ...rawJob,
+      salary: rawJob.salary || undefined,
       salaryAsked: rawJob.salaryAsked || undefined,
       salaryRange: rawJob.salaryRange || undefined,
       salaryOffered: rawJob.salaryOffered || undefined,
@@ -285,6 +288,7 @@ export async function getSingleJobAction(id: string): Promise<JobType | null> {
 
     return {
       ...rawJob,
+      salary: rawJob.salary || undefined,
       salaryAsked: rawJob.salaryAsked || undefined,
       salaryRange: rawJob.salaryRange || undefined,
       salaryOffered: rawJob.salaryOffered || undefined,
@@ -355,6 +359,7 @@ export async function updateJobAction(
 
     return {
       ...rawJob,
+      salary: rawJob.salary || undefined,
       salaryAsked: rawJob.salaryAsked || undefined,
       salaryRange: rawJob.salaryRange || undefined,
       salaryOffered: rawJob.salaryOffered || undefined,

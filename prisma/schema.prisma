@@ -21,7 +21,7 @@ model Job {
   position              String
   company               String
   location              String
-  salary                String
+  salary                String?
   salaryAsked           String?
   salaryRange           String?
   salaryOffered         String?

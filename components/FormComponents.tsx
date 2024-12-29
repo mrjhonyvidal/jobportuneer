@@ -14,6 +14,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "./ui/input";
+import { TooltipWrapper } from "./TooltipWrapper";
+import { Info } from "lucide-react";
 
 type CustomFormFieldProps = {
   name: string;
@@ -24,6 +26,8 @@ type CustomFormFieldProps = {
   placeholder?: string; // Optional placeholder for the input field
   value?: string; // Optional custom value for controlled fields
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; // Optional custom onChange handler
+  isRequired?: boolean; // Flag for required fields
+  tooltip?: string; // Tooltip content (optional)
 };
 
 export function CustomFormField({
@@ -35,6 +39,8 @@ export function CustomFormField({
   placeholder = "", // Default to an empty placeholder
   value,
   onChange,
+  isRequired = false, // Default to not required
+  tooltip, // Tooltip content
 }: CustomFormFieldProps) {
   // Render only if the condition is true
   if (!condition) return null;
@@ -45,7 +51,19 @@ export function CustomFormField({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="capitalize">{labelText || name}</FormLabel>
+          <div className="flex items-center gap-2">
+            <FormLabel className="capitalize">
+              {labelText || name}{" "}
+              {isRequired && (
+                <span className="text-secondary">*</span> // Asterisk for required fields
+              )}
+            </FormLabel>
+            {tooltip && (
+              <TooltipWrapper content={tooltip}>
+                <Info className="w-6 h-6 text-gray-600 hover:text-gray-900 cursor-help" />
+              </TooltipWrapper>
+            )}
+          </div>
           <FormControl>
             <Input
               {...field}
@@ -71,6 +89,8 @@ type CustomFormSelectProps = {
   items: string[]; // List of items for the select dropdown
   labelText?: string; // Optional label text
   condition?: boolean; // Optional condition to show/hide the field
+  isRequired?: boolean; // Flag for required fields
+  tooltip?: string; // Tooltip content (optional)
 };
 
 export function CustomFormSelect({
@@ -79,6 +99,8 @@ export function CustomFormSelect({
   items,
   labelText,
   condition = true, // Default to always render
+  isRequired = false, // Default to not required
+  tooltip, // Tooltip content
 }: CustomFormSelectProps) {
   // Render only if the condition is true
   if (!condition) return null;
@@ -89,7 +111,19 @@ export function CustomFormSelect({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="capitalize">{labelText || name}</FormLabel>
+          <div className="flex items-center gap-2">
+            <FormLabel className="capitalize">
+              {labelText || name}{" "}
+              {isRequired && (
+                <span className="text-secondary">*</span> // Asterisk for required fields
+              )}
+            </FormLabel>
+            {tooltip && (
+              <TooltipWrapper content={tooltip}>
+                <Info className="w-6 h-6 text-gray-600 hover:text-gray-900 cursor-help" />
+              </TooltipWrapper>
+            )}
+          </div>
           <Select
             value={field.value || ""}
             onValueChange={(value) => field.onChange(value)}

@@ -90,7 +90,7 @@ export type JobType = {
   position: string;
   company: string;
   location: string;
-  salary: string;
+  salary?: string | null;
   salaryAsked?: string | null;
   salaryRange?: string | null;
   salaryOffered?: string | null;
@@ -184,9 +184,7 @@ export const createAndEditJobSchema = z.object({
   company: z.string().min(2, {
     message: "Company must be at least 2 characters.",
   }),
-  salary: z.string().min(2, {
-    message: "Salary must be at least 2 characters.",
-  }),
+  salary: z.string().nullable().optional(),
   location: z.string().min(2, {
     message: "Location must be at least 2 characters.",
   }),
