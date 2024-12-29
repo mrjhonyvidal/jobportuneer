@@ -76,19 +76,19 @@ export type JobType = {
   company: string;
   location: string;
   salary: string;
-  salaryAsked?: string;
-  salaryRange?: string;
-  salaryOffered?: string;
+  salaryAsked?: string | null;
+  salaryRange?: string | null;
+  salaryOffered?: string | null;
   status: JobStatus;
   workType: WorkType;
   employmentType: EmploymentType;
-  description?: string;
-  experienceRequired?: number;
-  priority?: PriorityType;
-  requirements?: string[];
-  benefits?: string[];
-  interviewStages?: InterviewStageType[];
-  dateApplied?: Date;
+  description?: string | null;
+  experienceRequired?: number | null;
+  priority?: PriorityType | null;
+  requirements?: string[] | null;
+  benefits?: string[] | null;
+  interviewStages?: InterviewStageType[] | null;
+  dateApplied?: Date | null;
   sentFollowupToRecruiter: boolean;
 };
 
@@ -99,12 +99,12 @@ export type InterviewStageType = {
   clerkId: string;
   jobId: string;
   stageName: string;
-  description?: string;
+  description?: string | null;
   status: InterviewStageStatus;
-  scheduledDate?: Date;
-  durationMinutes?: number;
-  notes?: string;
-  tips?: TipType[];
+  scheduledDate?: Date | null;
+  durationMinutes?: number | null;
+  notes?: string | null;
+  tips?: TipType[] | null;
 };
 
 export type RemindersType = {
@@ -117,7 +117,7 @@ export type RemindersType = {
   reminderDate: Date;
   reminderType: ReminderType;
   status: ReminderStatus;
-  notes?: string;
+  notes?: string | null;
 };
 
 export type TipType = {
@@ -125,8 +125,8 @@ export type TipType = {
   createdAt: Date;
   updatedAt: Date;
   clerkId: string;
-  jobId?: string;
-  interviewStageId?: string;
+  jobId?: string | null;
+  interviewStageId?: string | null;
   title: string;
   content: string;
   category: TipCategory;
@@ -141,9 +141,9 @@ export type ContactType = {
   contactName: string;
   role: ContactRole;
   email: string;
-  phone?: string;
-  company?: string;
-  notes?: string;
+  phone?: string | null;
+  company?: string | null;
+  notes?: string | null;
 };
 
 export type PreferenceType = {
@@ -154,7 +154,7 @@ export type PreferenceType = {
   followUpFrequencyDays: number;
   remindBeforeInterview: number;
   notifyJobStatusChange: boolean;
-  customPreferences?: Record<string, any>;
+  customPreferences?: Record<string, any> | null;
 };
 
 // **Zod Schema for Job Validation**
@@ -181,16 +181,16 @@ export const createAndEditJobSchema = z.object({
   employmentType: z.nativeEnum(EmploymentType, {
     message: "Employment Type must be a valid type.",
   }),
-  salaryAsked: z.string().optional(),
-  salaryRange: z.string().optional(),
-  salaryOffered: z.string().optional(),
-  description: z.string().optional(),
-  experienceRequired: z.number().min(0).optional(),
-  priority: z.nativeEnum(PriorityType).optional(),
-  requirements: z.array(z.string()).optional(),
-  benefits: z.array(z.string()).optional(),
-  interviewStages: z.array(z.string()).optional(),
-  dateApplied: z.date().optional(),
+  salaryAsked: z.string().nullable().optional(),
+  salaryRange: z.string().nullable().optional(),
+  salaryOffered: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  experienceRequired: z.number().min(0).nullable().optional(),
+  priority: z.nativeEnum(PriorityType).nullable().optional(),
+  requirements: z.array(z.string()).nullable().optional(),
+  benefits: z.array(z.string()).nullable().optional(),
+  interviewStages: z.array(z.string()).nullable().optional(),
+  dateApplied: z.date().nullable().optional(),
   sentFollowupToRecruiter: z.boolean().optional(),
 });
 

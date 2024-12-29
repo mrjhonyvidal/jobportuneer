@@ -34,10 +34,7 @@ model Job {
   requirements          String[]
   benefits              String[]
   dateApplied           DateTime?
-  interviewStages       InterviewStage[]   // One-to-many relation
-  reminders             Reminder[]         // One-to-many relation
-  contacts              Contact[]          // One-to-many relation
-  tips                  Tip[]              // One-to-many relation
+  interviewStages       Int?                
   sentFollowupToRecruiter Boolean          @default(false)
 }
 
@@ -47,14 +44,12 @@ model InterviewStage {
   createdAt             DateTime           @default(now())
   updatedAt             DateTime           @updatedAt
   jobId                 String             // Relation field
-  job                   Job                @relation(fields: [jobId], references: [id])
   stageName             String
   description           String?
   status                String             // Enum: Pending, Completed, Cancelled
   scheduledDate         DateTime?
   durationMinutes       Int?
   notes                 String?
-  tips                  Tip[]              // One-to-many relation
 }
 
 model Reminder {
@@ -63,7 +58,6 @@ model Reminder {
   createdAt             DateTime           @default(now())
   updatedAt             DateTime           @updatedAt
   jobId                 String             // Relation field
-  job                   Job                @relation(fields: [jobId], references: [id])
   title                 String
   reminderDate          DateTime
   reminderType          String             // Enum: Email, SMS, Notification
@@ -76,8 +70,7 @@ model Contact {
   clerkId               String
   createdAt             DateTime           @default(now())
   updatedAt             DateTime           @updatedAt
-  jobId                 String             // Relation field
-  job                   Job                @relation(fields: [jobId], references: [id])
+  jobId                 String             // Relation field          
   contactName           String
   role                  String             // Enum: Recruiter, Hiring Manager, Interviewer
   email                 String
@@ -92,9 +85,7 @@ model Tip {
   createdAt             DateTime           @default(now())
   updatedAt             DateTime           @updatedAt
   jobId                 String?            // Optional relation field
-  job                   Job?               @relation(fields: [jobId], references: [id])
   interviewStageId      String?            // Optional relation field
-  interviewStage        InterviewStage?    @relation(fields: [interviewStageId], references: [id])
   title                 String
   content               String
   category              String             // Enum: Resume, Interview, Negotiation, etc.

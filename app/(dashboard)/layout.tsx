@@ -27,12 +27,12 @@ function Layout({ children }: PropsWithChildren) {
         </div>
 
         {/* Main Content */}
-        <div className="lg:col-span-4 flex flex-col">
+        <div className="lg:col-span-5 flex flex-col">
           <div className="flex-1 py-8 px-4 sm:px-8 lg:px-16">{children}</div>
         </div>
 
         {/* Optional right column */}
-        <div className="hidden lg:block lg:col-span-1 bg-muted"></div>
+        {/* <div className="hidden lg:block lg:col-span-1 bg-muted"></div> */}
       </main>
     </>
   );
