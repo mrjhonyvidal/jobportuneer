@@ -1,10 +1,10 @@
-import UnderDevelopment from "@/components/UnderDevelopment";
+import AboutAndFeedback from "@/components/AboutAndFeedback";
 
 function WinWin() {
   return (
     <main className="min-h-screen">
       {/* Page Wrapper */}
-      <UnderDevelopment />
+      <AboutAndFeedback />
     </main>
   );
 }

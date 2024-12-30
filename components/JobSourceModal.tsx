@@ -26,7 +26,7 @@ export function JobSourceModal({
   onClose,
   onSubmit,
 }: JobSourceModalProps) {
-  const [sourceType, setSourceType] = useState<string>("Other");
+  const [sourceType, setSourceType] = useState<string>("Company Website");
   const [urlJobSource, setUrlJobSource] = useState<string>("");
   const [error, setError] = useState<string>("");
 
@@ -49,11 +49,12 @@ export function JobSourceModal({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
-        <DialogTitle>Add Job Source</DialogTitle>
-        <DialogDescription>
-          Provide a source and a link to the job post you&apos;d like to track.
+        <DialogTitle className="text-2xl font-bold text-gray-900">
+          Add Job Details
+        </DialogTitle>
+        <DialogDescription className="text-base text-gray-700">
+          Organize your applications by where you found this job.
         </DialogDescription>
-
         {/* Job Source Dropdown */}
         <Select
           onValueChange={(value) => {
@@ -62,7 +63,7 @@ export function JobSourceModal({
           }}
         >
           <SelectTrigger className="w-full mt-4">
-            {sourceType || "Select a job source"}
+            {sourceType || "Select"}
           </SelectTrigger>
           <SelectContent>
             {Object.values(JobSourceType).map((type) => (
@@ -75,7 +76,7 @@ export function JobSourceModal({
 
         {/* URL Input Field */}
         <Input
-          placeholder="Paste the job post URL here"
+          placeholder="Enter the job URL (optional)"
           value={urlJobSource}
           onChange={(e) => {
             setUrlJobSource(e.target.value);

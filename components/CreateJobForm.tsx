@@ -43,7 +43,7 @@ function CreateJobForm() {
       salaryRange: "",
       salaryOffered: "",
       workType: WorkType.Hybrid,
-      status: JobStatus.Pending,
+      status: JobStatus.ToApply,
       employmentType: EmploymentType.FullTime,
       priority: PriorityType.GreatOpportunity,
       requirements: [],

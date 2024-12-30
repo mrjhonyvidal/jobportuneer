@@ -11,6 +11,8 @@ import {
   WorkType,
   EmploymentType,
   JobSourceType,
+  FeedbackType,
+  feedbackSchema,
 } from "./types";
 import { redirect } from "next/navigation";
 import { Prisma } from "@prisma/client";
@@ -381,14 +383,7 @@ export async function updateJobAction(
   }
 }
 
-export async function getStatsAction(): Promise<{
-  Pending: number;
-  Interview: number;
-  Declined: number;
-  Rejected: number;
-  DiscussingOffer: number;
-  Accepted: number;
-}> {
+export async function getStatsAction(): Promise<Record<JobStatus, number>> {
   const userId = authenticateAndRedirect();
 
   try {
@@ -398,22 +393,26 @@ export async function getStatsAction(): Promise<{
       where: { clerkId: userId },
     });
 
-    const statsObject = stats.reduce((acc, curr) => {
-      acc[curr.status] = curr._count.status;
-      return acc;
-    }, {} as Record<string, number>);
+    const normalizedStatuses = Object.values(JobStatus).reduce(
+      (acc, status) => {
+        acc[status.replace(/\s+/g, "_")] = 0; // Initialize with default value of 0
+        return acc;
+      },
+      {} as Record<string, number>
+    );
 
-    return {
-      Pending: statsObject.Pending || 0,
-      Interview: statsObject.Interview || 0,
-      Declined: statsObject.Declined || 0,
-      Rejected: statsObject.Rejected || 0,
-      DiscussingOffer: statsObject.DiscussingOffer || 0,
-      Accepted: statsObject.Accepted || 0,
-    };
+    stats.forEach((stat) => {
+      const normalizedKey = stat.status.replace(/\s+/g, "_");
+      if (normalizedStatuses[normalizedKey] !== undefined) {
+        normalizedStatuses[normalizedKey] = stat._count.status;
+      }
+    });
+
+    return normalizedStatuses as Record<JobStatus, number>;
   } catch (error) {
     console.error(error);
     redirect("/jobs");
+    return {} as Record<JobStatus, number>; // Fallback empty object
   }
 }
 
@@ -446,5 +445,73 @@ export async function getChartsDataAction(): Promise<
   } catch (error) {
     console.error(error);
     redirect("/jobs");
+  }
+}
+
+export async function submitFeedbackAction(
+  data: FeedbackType & { allowShareMyFeedbackPublic?: boolean }
+): Promise<{ success: boolean; message?: string; data?: any }> {
+  try {
+    const userId = authenticateAndRedirect();
+
+    // Check existing feedback count
+    const existingFeedbacks = await prisma.feedback.count({
+      where: { clerkId: userId },
+    });
+
+    if (existingFeedbacks >= 3) {
+      return {
+        success: false,
+        message: "You have already submitted the maximum of 3 feedbacks.",
+      };
+    }
+
+    // Validate input with Zod
+    const parsedData = feedbackSchema.safeParse(data);
+    if (!parsedData.success) {
+      return {
+        success: false,
+        message: "Invalid feedback data. Please check your input.",
+      };
+    }
+
+    // Save feedback to the database
+    const newFeedback = await prisma.feedback.create({
+      data: {
+        clerkId: userId,
+        feedback: parsedData.data.feedback,
+        rating: parsedData.data.rating,
+        allowShareMyFeedbackPublic: data.allowShareMyFeedbackPublic ?? true,
+      },
+    });
+
+    return {
+      success: true,
+      data: newFeedback,
+    };
+  } catch (error) {
+    console.error("Error submitting feedback:", error);
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "An unexpected error occurred while submitting feedback.",
+    };
+  }
+}
+
+export async function fetchUserFeedbacks() {
+  try {
+    const userId = authenticateAndRedirect();
+    const feedbacks = await prisma.feedback.findMany({
+      where: { clerkId: userId },
+      orderBy: { createdAt: "desc" },
+      take: 3, // Fetch latest 3 feedbacks
+    });
+    return feedbacks;
+  } catch (error) {
+    console.error("Error fetching feedbacks:", error);
+    return null;
   }
 }

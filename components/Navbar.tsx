@@ -1,6 +1,10 @@
+"use client";
+
 import LinksDropdown from "./LinksDropdown";
 import { UserButton } from "@clerk/nextjs";
 import { ThemeToggle } from "./ThemeToggle";
+import PreferencesPage from "./PreferencePage";
+import { Bell, BellDotIcon } from "lucide-react";
 
 function Navbar() {
   return (
@@ -10,7 +14,20 @@ function Navbar() {
       </div>
       <div className="flex items-center gap-x-4">
         <ThemeToggle />
-        <UserButton afterSignOutUrl="/" />
+        <UserButton afterSignOutUrl="/">
+          <UserButton.UserProfilePage
+            label="Notifcations"
+            url="preferences"
+            labelIcon={<Bell />}
+          >
+            <PreferencesPage />
+          </UserButton.UserProfilePage>
+          {/* <UserButton.UserProfileLink
+            label="Preferences2"
+            url="preferences"
+            labelIcon={<BellDotIcon />}
+          /> */}
+        </UserButton>
       </div>
     </nav>
   );

@@ -63,15 +63,15 @@ export default function PreferencesPage() {
   };
 
   const onSubmit = async (data: PreferenceFormValues) => {
-    setIsSaving(true);
-    setTimeout(() => {
-      setIsSaving(false);
-      toast({
-        title: "Preferences Saved",
-        description: "Your notification preferences have been updated.",
-      });
-      console.log(data);
-    }, 1000);
+    // setIsSaving(true);
+    // setTimeout(() => {
+    setIsSaving(false);
+    toast({
+      title: "Preferences Saved",
+      description: "Your notification preferences have been updated.",
+    });
+    console.log(data);
+    //}, 4000);
   };
 
   return (

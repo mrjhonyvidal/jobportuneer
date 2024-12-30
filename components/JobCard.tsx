@@ -23,7 +23,7 @@ function JobCard({ job, onClick }: { job: JobType; onClick: () => void }) {
   const label = job.dateApplied ? "Date Applied" : "Last Update";
 
   const badgeClassName =
-    job.status === JobStatus.Pending ? "bg-secondary text-white" : "";
+    job.status === JobStatus.ToApply ? "bg-secondary text-white" : "";
 
   return (
     <Card className="bg-muted cursor-pointer">

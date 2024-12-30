@@ -3,26 +3,25 @@ import * as z from "zod";
 // **Enums**
 
 export enum JobStatus {
-  Pending = "Pending",
-  Interview = "Interview",
-  Rejected = "Rejected",
-  DiscussingOffer = "DiscussingOffer",
-  Accepted = "Accepted",
-  Declined = "Declined",
+  ToApply = "To Apply", // Represents jobs the user is interested in but hasn't applied for yet.
+  Applied = "Applied", // Represents jobs where applications have been submitted.
+  Screening = "Screening", // Represents the employer's initial review of the application.
+  Interviewing = "Interviewing", // Represents any stage of interviews.
+  OfferExtended = "Offer Extended", // Represents jobs where an offer has been made.
+  Negotiating = "Negotiating", // Represents the offer discussion or negotiation phase.
+  Accepted = "Accepted", // Represents jobs where the offer has been accepted.
+  Declined = "Declined", // Represents jobs where the offer has been declined by the user.
+  Rejected = "Rejected", // Represents jobs where the application was rejected by the employer.
+  OnHold = "On Hold", // Represents jobs where the process is paused by either party.
+  Withdrawn = "Withdrawn", // Represents jobs where the user has chosen to withdraw their application.
 }
 
 export enum JobSourceType {
   LinkedIn = "LinkedIn",
   Indeed = "Indeed",
   Glassdoor = "Glassdoor",
-  Monster = "Monster",
-  AngelList = "AngelList",
-  SimplyHired = "SimplyHired",
-  Dice = "Dice",
-  Hired = "Hired",
-  CareerBuilder = "CareerBuilder",
   YCombinator = "YCombinator",
-  Other = "Other",
+  Other = "Company Website",
 }
 
 export enum WorkType {
@@ -220,3 +219,13 @@ export const createAndEditJobSchema = z.object({
 });
 
 export type CreateAndEditJobType = z.infer<typeof createAndEditJobSchema>;
+
+export const feedbackSchema = z.object({
+  feedback: z
+    .string()
+    .min(10, { message: "Feedback must be at least 10 characters long." })
+    .max(400, { message: "Feedback must be at most 400 characters long." }),
+  rating: z.number().min(1, { message: "Rating must be at least 1 star." }),
+});
+
+export type FeedbackType = z.infer<typeof feedbackSchema>;

@@ -25,7 +25,7 @@ model Job {
   salaryAsked           String?
   salaryRange           String?
   salaryOffered         String?
-  status                String             // Enum: Pending, InterviewProcess, etc.
+  status                String             // Enum : Applied, Interviewing, Offered, Rejected, etc. 
   workType              String             // Enum: Hybrid, Onsite, Remote, etc.
   employmentType        String             // Enum: Full-Time, Part-Time, etc.
   description           String?
@@ -121,4 +121,14 @@ model Tip {
   title                 String
   content               String
   category              String             // Enum: Resume, Interview, Negotiation, etc.
+}
+
+model Feedback {
+  id        String   @id @default(uuid())
+  clerkId   String   // User ID from Clerk
+  feedback  String   @db.Text
+  rating    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  allowShareMyFeedbackPublic Boolean @default(true)
 }

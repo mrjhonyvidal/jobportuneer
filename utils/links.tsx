@@ -15,24 +15,19 @@ type NavLink = {
 
 const links: NavLink[] = [
   {
-    href: "/stats",
-    label: "Stats",
-    icon: <AreaChart size={24} />,
-  },
-  {
     href: "/jobs",
-    label: "My Jobs",
+    label: "Opportunities Hub",
     icon: <AppWindow size={24} />,
   },
   {
-    href: "/add-job",
-    label: "Add Job",
-    icon: <Layers size={24} />,
+    href: "/stats",
+    label: "Insights & Wins",
+    icon: <AreaChart size={24} />,
   },
   {
-    href: "/preferences",
-    label: "Preferences",
-    icon: <Cog size={24} />,
+    href: "/win-win",
+    label: "Feedback Zone",
+    icon: <Rocket size={24} />,
   },
 ];
 

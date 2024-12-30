@@ -70,7 +70,7 @@ function EditJobForm({ jobId }: { jobId: string }) {
     workType: WorkType.Hybrid,
     jobSource: JobSourceType.Other,
     urlJobSource: "",
-    status: JobStatus.Pending,
+    status: JobStatus.ToApply,
     employmentType: EmploymentType.FullTime,
     priority: PriorityType.GreatOpportunity,
   };
