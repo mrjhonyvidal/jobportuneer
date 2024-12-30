@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Linkedin, Github, Globe, Coffee } from "lucide-react";
 import FeedbackForm from "./FeedbackForm";
 import profilePhoto from "../assets/jhony-vidal-profile-photo.jpg";
+import BmcQR from "../assets/bmc_qr.png";
 
 export default function AboutAndFeedback() {
   return (
@@ -72,15 +73,20 @@ export default function AboutAndFeedback() {
             </a>
           </div>
 
-          {/* Buy Me a Coffee */}
+          {/* Support Jobportuneer Section */}
           <div className="mt-8 text-center lg:text-left">
+            {/* Section Heading */}
             <h3 className="text-xl font-semibold text-gray-800">
               Support <span className="text-primary">Jobportuneer</span>
             </h3>
+
+            {/* Description */}
             <p className="text-gray-600 mt-2">
-              Your contribution helps keep this service free and make new
+              Your contribution helps keep this service free and makes new
               features possible, like:
             </p>
+
+            {/* Features List */}
             <ul className="list-disc pl-6 text-gray-600 mt-2">
               <li>Organizing interviews for better visibility;</li>
               <li>Discovering local networking events nearby;</li>
@@ -89,16 +95,32 @@ export default function AboutAndFeedback() {
                 preparation;
               </li>
             </ul>
-            <div className="flex items-center justify-center lg:justify-start mt-4">
-              <a
-                href="https://buymeacoffee.com/jobportuneer"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-2 text-primary hover:text-secondary"
-              >
-                <Coffee size={24} />
-                <span className="text-lg font-semibold">Buy Me a Coffee</span>
-              </a>
+
+            {/* QR Code and Call to Action */}
+            <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-start mt-4 space-y-4 lg:space-y-0 lg:space-x-6">
+              {/* QR Code */}
+              <Image
+                src={BmcQR}
+                alt="Buy Me a Coffee QR Code"
+                className="w-60 h-60" // Adjust size as needed
+              />
+
+              {/* Text and Button */}
+              <div className="text-center lg:text-left">
+                <p className="text-sm text-gray-600">
+                  Scan the QR code to support us on{" "}
+                </p>
+
+                <a
+                  href="https://buymeacoffee.com/jobportuneer"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center lg:justify-start space-x-2 text-primary hover:text-secondary mt-2"
+                >
+                  <Coffee size={24} />
+                  <span className="text-lg font-semibold">Buy Me a Coffee</span>
+                </a>
+              </div>
             </div>
           </div>
         </section>
