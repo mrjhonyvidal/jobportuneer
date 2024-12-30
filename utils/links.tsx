@@ -26,7 +26,7 @@ const links: NavLink[] = [
   },
   {
     href: "/win-win",
-    label: "Feedback Zone",
+    label: "Support & Feedback",
     icon: <Rocket size={24} />,
   },
 ];

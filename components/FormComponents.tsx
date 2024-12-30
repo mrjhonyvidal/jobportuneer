@@ -22,12 +22,16 @@ type CustomFormFieldProps = {
   control: Control<any>;
   labelText?: string; // Optional label text for the field
   type?: string; // Field input type (e.g., text, number, date, checkbox)
+  as?: "input" | "textarea"; // Option to render textarea
   condition?: boolean; // Optional condition to show/hide the field
   placeholder?: string; // Optional placeholder for the input field
   value?: string; // Optional custom value for controlled fields
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; // Optional custom onChange handler
+  onChange?: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void; // Optional custom onChange handler
   isRequired?: boolean; // Flag for required fields
   tooltip?: string; // Tooltip content (optional)
+  className?: string; // Additional class names for styling
 };
 
 export function CustomFormField({
@@ -35,12 +39,14 @@ export function CustomFormField({
   control,
   labelText,
   type = "text", // Default input type
+  as = "input", // Default to input
   condition = true, // Default to always render
   placeholder = "", // Default to an empty placeholder
   value,
   onChange,
   isRequired = false, // Default to not required
   tooltip, // Tooltip content
+  className, // Additional class names
 }: CustomFormFieldProps) {
   // Render only if the condition is true
   if (!condition) return null;
@@ -65,16 +71,30 @@ export function CustomFormField({
             )}
           </div>
           <FormControl>
-            <Input
-              {...field}
-              type={type}
-              placeholder={placeholder} // Add the optional placeholder
-              value={value !== undefined ? value : field.value} // Use custom value if provided
-              onChange={(e) => {
-                field.onChange(e); // Ensure React Hook Form handles changes
-                onChange?.(e); // Call custom onChange if provided
-              }}
-            />
+            {as === "textarea" ? (
+              <textarea
+                {...field}
+                placeholder={placeholder} // Add the optional placeholder
+                value={value !== undefined ? value : field.value} // Use custom value if provided
+                onChange={(e) => {
+                  field.onChange(e); // Ensure React Hook Form handles changes
+                  onChange?.(e); // Call custom onChange if provided
+                }}
+                className={`w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-indigo-500 ${className}`}
+              />
+            ) : (
+              <Input
+                {...field}
+                type={type}
+                placeholder={placeholder} // Add the optional placeholder
+                value={value !== undefined ? value : field.value} // Use custom value if provided
+                onChange={(e) => {
+                  field.onChange(e); // Ensure React Hook Form handles changes
+                  onChange?.(e); // Call custom onChange if provided
+                }}
+                className={className}
+              />
+            )}
           </FormControl>
           <FormMessage />
         </FormItem>

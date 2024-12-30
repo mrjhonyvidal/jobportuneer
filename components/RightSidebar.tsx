@@ -5,7 +5,6 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetClose,
 } from "@/components/ui/sheet";
 import { ReactNode } from "react";
 
@@ -18,6 +17,7 @@ interface RightSidebarProps {
     icon?: ReactNode; // Optional icon for sections
     content: ReactNode; // Content for each section
   }>;
+  footer?: ReactNode; // New optional footer for custom content like buttons
 }
 
 export default function RightSidebar({
@@ -25,6 +25,7 @@ export default function RightSidebar({
   onClose,
   title,
   sections,
+  footer, // Accept a footer as a prop
 }: RightSidebarProps) {
   return (
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -52,6 +53,7 @@ export default function RightSidebar({
             </div>
           ))}
         </div>
+        {footer && <div className="p-4 border-t">{footer}</div>}
       </SheetContent>
     </Sheet>
   );

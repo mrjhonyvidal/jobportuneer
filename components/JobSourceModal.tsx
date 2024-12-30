@@ -76,7 +76,7 @@ export function JobSourceModal({
 
         {/* URL Input Field */}
         <Input
-          placeholder="Enter the job URL (optional)"
+          placeholder="Enter the job URL"
           value={urlJobSource}
           onChange={(e) => {
             setUrlJobSource(e.target.value);

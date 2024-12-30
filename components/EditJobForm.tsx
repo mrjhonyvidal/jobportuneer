@@ -68,7 +68,7 @@ function EditJobForm({ jobId }: { jobId: string }) {
     dateApplied: null,
     sentFollowupToRecruiter: false,
     workType: WorkType.Hybrid,
-    jobSource: JobSourceType.Other,
+    jobSource: JobSourceType.CompanyWebsite,
     urlJobSource: "",
     status: JobStatus.ToApply,
     employmentType: EmploymentType.FullTime,

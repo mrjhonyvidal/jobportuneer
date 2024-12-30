@@ -30,7 +30,7 @@ export default function Home() {
               <Link href="/add-job">
                 <span className="flex items-center space-x-2">
                   <ArrowRight className="w-6 h-6" />
-                  <span>Add Your First Job</span>
+                  <span>Start Tracking</span>
                 </span>
               </Link>
             </Button>

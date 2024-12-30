@@ -21,7 +21,8 @@ export enum JobSourceType {
   Indeed = "Indeed",
   Glassdoor = "Glassdoor",
   YCombinator = "YCombinator",
-  Other = "Company Website",
+  CompanyWebsite = "Company Website",
+  Other = "Other",
 }
 
 export enum WorkType {

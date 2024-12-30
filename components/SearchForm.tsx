@@ -39,7 +39,7 @@ function SearchForm() {
     >
       <Input
         type="text"
-        placeholder="Search Jobs"
+        placeholder="Search saved jobs"
         name="search"
         defaultValue={search}
       />

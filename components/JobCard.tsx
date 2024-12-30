@@ -45,7 +45,7 @@ function JobCard({ job, onClick }: { job: JobType; onClick: () => void }) {
       </CardContent>
       <CardFooter className="flex gap-4">
         <Button asChild size="sm">
-          <Link href={`/jobs/${job.id}`}>Edit</Link>
+          <Link href={`/jobs/${job.id}`}>Edit Job</Link>
         </Button>
         <DeleteJobButton id={job.id} />
       </CardFooter>

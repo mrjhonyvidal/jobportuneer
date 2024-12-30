@@ -1,14 +1,22 @@
-import { Briefcase, DollarSign, MapPin, CheckCircle, List } from "lucide-react";
+import { Briefcase, DollarSign, MapPin, CheckCircle } from "lucide-react";
 import RightSidebar from "@/components/RightSidebar";
 import { JobType } from "@/utils/types";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 interface JobDetailsSidebarProps {
   isOpen: boolean;
   onClose: () => void;
   job: JobType | null;
+  showDetailsButton?: boolean; // New property
 }
 
-function JobDetailsSidebar({ isOpen, onClose, job }: JobDetailsSidebarProps) {
+function JobDetailsSidebar({
+  isOpen,
+  onClose,
+  job,
+  showDetailsButton = false, // Default to false
+}: JobDetailsSidebarProps) {
   if (!job) return null;
 
   const jobDetailsSections = [
@@ -32,36 +40,6 @@ function JobDetailsSidebar({ isOpen, onClose, job }: JobDetailsSidebarProps) {
       icon: <DollarSign className="w-5 h-5 text-primary" />,
       content: job.salary || "Not specified",
     },
-    // ...(job.requirements
-    //   ? [
-    //       {
-    //         title: "Requirements",
-    //         icon: <List className="w-5 h-5 text-primary" />,
-    //         content: (
-    //           <ul className="list-disc list-inside">
-    //             {job.requirements.map((req, index) => (
-    //               <li key={index}>{req}</li>
-    //             ))}
-    //           </ul>
-    //         ),
-    //       },
-    //     ]
-    //   : []),
-    // ...(job.benefits
-    //   ? [
-    //       {
-    //         title: "Benefits",
-    //         icon: <CheckCircle className="w-5 h-5 text-primary" />,
-    //         content: (
-    //           <ul className="list-disc list-inside">
-    //             {job.benefits.map((benefit, index) => (
-    //               <li key={index}>{benefit}</li>
-    //             ))}
-    //           </ul>
-    //         ),
-    //       },
-    //     ]
-    //   : []),
   ];
 
   return (
@@ -70,6 +48,13 @@ function JobDetailsSidebar({ isOpen, onClose, job }: JobDetailsSidebarProps) {
       onClose={onClose}
       title="Job Details"
       sections={jobDetailsSections}
+      footer={
+        showDetailsButton && (
+          <Link href={`/jobs/${job.id}`}>
+            <Button className="w-full font-bold text-lg">Go to Details</Button>
+          </Link>
+        )
+      } // Pass footer content conditionally
     />
   );
 }
