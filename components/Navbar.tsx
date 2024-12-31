@@ -8,7 +8,7 @@ import { Bell, BellDotIcon } from "lucide-react";
 
 function Navbar() {
   return (
-    <nav className="bg-muted py-4 sm:px-16 lg:px-24 px-4 flex items-center justify-between border-b border-gray-200 shadow-sm">
+    <nav className="bg-muted py-4 sm:px-16 lg:px-24 px-4 flex items-center justify-between shadow-sm">
       <div>
         <LinksDropdown />
       </div>

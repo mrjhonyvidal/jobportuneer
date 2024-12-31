@@ -40,9 +40,7 @@ export default function RightSidebar({
           {sections.map((section, index) => (
             <div key={index} className="space-y-2">
               <div className="flex items-center gap-2">
-                {section.icon && (
-                  <div className="h-5 w-5 text-gray-700">{section.icon}</div>
-                )}
+                {section.icon && <div className="h-5 w-5">{section.icon}</div>}
                 <h3 className="text-base font-medium text-muted-foreground">
                   {section.title}
                 </h3>

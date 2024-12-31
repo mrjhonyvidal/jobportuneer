@@ -12,7 +12,7 @@ export default function PublicNavBar() {
   const { isSignedIn } = useUser();
 
   return (
-    <header className="top-0 mx-auto px-4 sm:px-8 bg-white shadow-sm py-6 z-50 transition-colors duration-300">
+    <header className="top-0 mx-auto px-4 sm:px-8 shadow-sm py-6 z-50 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-8 py-6 flex justify-between items-center">
         <Link href="/">
           <Image
@@ -26,7 +26,7 @@ export default function PublicNavBar() {
         <div className="hidden md:flex space-x-6 items-center">
           {isSignedIn ? (
             <Button variant="outline" asChild>
-              <Link href="/stats">
+              <Link href="/jobs">
                 <span className="flex items-center space-x-2">
                   <DoorOpen className="w-5 h-5" />
                   <span>Dashboard</span>
@@ -35,7 +35,7 @@ export default function PublicNavBar() {
             </Button>
           ) : (
             <Button variant="outline" asChild>
-              <Link href="/stats">
+              <Link href="/jobs">
                 <span className="flex items-center space-x-2">
                   <DoorOpen className="w-5 h-5" />
                   <span>Sign In</span>
@@ -60,12 +60,12 @@ export default function PublicNavBar() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white shadow-md py-4">
+        <div className="md:hidden shadow-md py-4">
           <nav className="flex flex-col items-center space-y-4">
             {isSignedIn ? (
               <Button variant="outline" asChild>
-                <Link href="/stats">
-                  <span className="flex items-center space-x-2">
+                <Link href="/jobs">
+                  <span className="flex s-center space-x-2">
                     <DoorOpen className="w-5 h-5" />
                     <span>Dashboard</span>
                   </span>
@@ -73,7 +73,7 @@ export default function PublicNavBar() {
               </Button>
             ) : (
               <Button variant="outline" asChild>
-                <Link href="/stats">
+                <Link href="/jobs">
                   <span className="flex items-center space-x-2">
                     <DoorOpen className="w-5 h-5" />
                     <span>Sign In</span>

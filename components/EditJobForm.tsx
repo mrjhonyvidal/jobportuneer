@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation";
 import { CustomFormField, CustomFormSelect } from "./FormComponents";
 import { getSingleJobAction, updateJobAction } from "@/utils/actions";
 import { Trash, Plus, MoreHorizontal } from "lucide-react";
-import InterviewList from "./InterviewList";
+import InterviewList from "./Interviews/InterviewList";
 import JobDetailsSidebar from "./JobDetailsSidebar";
 import InterviewTipsSidebar from "./InterviewTipsSidebar";
 

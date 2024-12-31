@@ -49,10 +49,10 @@ export function JobSourceModal({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
-        <DialogTitle className="text-2xl font-bold text-gray-900">
+        <DialogTitle className="text-2xl font-bold">
           Add Job Details
         </DialogTitle>
-        <DialogDescription className="text-base text-gray-700">
+        <DialogDescription className="text-base">
           Organize your applications by where you found this job.
         </DialogDescription>
         {/* Job Source Dropdown */}

@@ -36,16 +36,14 @@ export default function InterviewList({ steps }: InterviewListProps) {
               <CardTitle>{step.title}</CardTitle>
               <span
                 className={`text-sm font-medium ${
-                  step.completed ? "text-green-600" : "text-gray-500"
+                  step.completed ? "text-green-600" : ""
                 }`}
               >
                 {step.completed ? "Completed" : "Pending"}
               </span>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
-                {step.description}
-              </p>
+              <p className="text-sm">{step.description}</p>
             </CardContent>
           </Card>
         ))}

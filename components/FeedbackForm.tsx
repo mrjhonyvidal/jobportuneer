@@ -99,7 +99,7 @@ export default function FeedbackForm() {
         placeholder="Share your feedback (10-200 characters)..."
         className="w-full h-32 p-4 border rounded-lg focus:ring-2 focus:ring-primary"
       ></textarea>
-      <div className="text-sm text-gray-500 mt-1">
+      <div className="text-sm mt-1">
         You’ve used {feedbackLength} out of 200 characters (Up to 3 feedback
         entries allowed)
       </div>
@@ -112,10 +112,7 @@ export default function FeedbackForm() {
           {...register("allowShareMyFeedbackPublic")}
           className="w-5 h-5 text-secondary border-gray-300 rounded focus:ring-secondary"
         />
-        <label
-          htmlFor="allowShareMyFeedbackPublic"
-          className="text-gray-700 text-sm"
-        >
+        <label htmlFor="allowShareMyFeedbackPublic" className="text-sm">
           Allow my feedback to be shared publicly
         </label>
       </div>

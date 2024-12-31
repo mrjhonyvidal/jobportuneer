@@ -5,6 +5,8 @@ import {
   FileCheck,
   Rocket,
   Cog,
+  CalendarCheck2,
+  UserRoundSearch,
 } from "lucide-react";
 
 type NavLink = {
@@ -20,13 +22,18 @@ const links: NavLink[] = [
     icon: <AppWindow size={24} />,
   },
   {
+    href: "/interviews",
+    label: "Interviews",
+    icon: <CalendarCheck2 size={24} />,
+  },
+  {
     href: "/stats",
-    label: "Insights & Wins",
+    label: "Insights",
     icon: <AreaChart size={24} />,
   },
   {
     href: "/win-win",
-    label: "Support & Feedback",
+    label: "Feedback",
     icon: <Rocket size={24} />,
   },
 ];

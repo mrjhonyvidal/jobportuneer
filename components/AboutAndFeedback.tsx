@@ -41,8 +41,9 @@ export default function AboutAndFeedback() {
             is to give you the confidence and edge you need to succeed.
           </p>
           <p className="text-lg text-gray-600 mt-4 leading-relaxed text-center lg:text-left">
-            Feel free to connect with me! If you’re in London, let’s grab a
-            coffee and chat about tech, music, podcasts, life...
+            Feel free to connect with me! If you’re , let’s grab a Feel free to
+            connect with me! If you’re in London 🇬🇧, let’s grab a coffee and
+            chat about tech, entrepreneurship, opportunities...
           </p>
 
           {/* Social Links */}
@@ -94,6 +95,7 @@ export default function AboutAndFeedback() {
                 Adding AI-powered tools to save you time in your job search and
                 preparation;
               </li>
+              <li>Much more—sky is the limit!</li>
             </ul>
 
             {/* QR Code and Call to Action */}
@@ -108,7 +110,7 @@ export default function AboutAndFeedback() {
               {/* Text and Button */}
               <div className="text-center lg:text-left">
                 <p className="text-sm text-gray-600">
-                  Scan the QR code to support us on{" "}
+                  Scan the QR code to support me on{" "}
                 </p>
 
                 <a

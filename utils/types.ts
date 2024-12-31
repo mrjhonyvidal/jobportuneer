@@ -175,6 +175,15 @@ export type PreferenceType = {
   customPreferences?: Record<string, any> | null;
 };
 
+export type Event = {
+  id: string;
+  title: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  variant: string;
+};
+
 // **Zod Schema for Job Validation**
 
 export const createAndEditJobSchema = z.object({

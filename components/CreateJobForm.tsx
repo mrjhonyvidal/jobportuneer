@@ -194,7 +194,7 @@ function CreateJobForm() {
                   variant="outline"
                   type="button"
                   onClick={() => setOptionalVisible(!isOptionalVisible)}
-                  className="flex items-center gap-2 text-gray-700"
+                  className="flex items-center gap-2"
                 >
                   {isOptionalVisible
                     ? "Hide Optional Fields"
@@ -210,7 +210,7 @@ function CreateJobForm() {
               {/* Conditionally render content */}
               {isOptionalVisible && (
                 <div className="space-y-6 mt-4">
-                  <h3 className="text-xl font-semibold text-gray-700">
+                  <h3 className="text-xl font-semibold ">
                     Optional Information
                   </h3>
 
@@ -371,9 +371,7 @@ function CreateJobForm() {
                     </div>
                   </div>
 
-                  <h3 className="text-xl font-semibold text-gray-700">
-                    Salary Negotiation
-                  </h3>
+                  <h3 className="text-xl font-semibold">Salary Negotiation</h3>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
                     <CustomFormField

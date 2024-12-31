@@ -393,25 +393,25 @@ export async function getStatsAction(): Promise<Record<JobStatus, number>> {
       where: { clerkId: userId },
     });
 
+    // Normalize keys to match JobStatus exactly
     const normalizedStatuses = Object.values(JobStatus).reduce(
       (acc, status) => {
-        acc[status.replace(/\s+/g, "_")] = 0; // Initialize with default value of 0
+        acc[status] = 0; // Initialize with default value of 0
         return acc;
       },
-      {} as Record<string, number>
+      {} as Record<JobStatus, number>
     );
 
     stats.forEach((stat) => {
-      const normalizedKey = stat.status.replace(/\s+/g, "_");
-      if (normalizedStatuses[normalizedKey] !== undefined) {
-        normalizedStatuses[normalizedKey] = stat._count.status;
+      if (normalizedStatuses[stat.status as JobStatus] !== undefined) {
+        normalizedStatuses[stat.status as JobStatus] = stat._count.status;
       }
     });
 
-    return normalizedStatuses as Record<JobStatus, number>;
+    return normalizedStatuses;
   } catch (error) {
     console.error(error);
-    redirect("/jobs");
+    //redirect("/jobs");
     return {} as Record<JobStatus, number>; // Fallback empty object
   }
 }
@@ -513,5 +513,33 @@ export async function fetchUserFeedbacks() {
   } catch (error) {
     console.error("Error fetching feedbacks:", error);
     return null;
+  }
+}
+
+export async function getAllInterviewStages() {
+  const userId = authenticateAndRedirect();
+
+  try {
+    const interviewStages = await prisma.interviewStage.findMany({
+      where: { clerkId: userId },
+      orderBy: { scheduledDate: "asc" },
+    });
+
+    return interviewStages.map((interview) => ({
+      id: interview.id,
+      title: interview.stageName,
+      description: interview.description || "",
+      startDate: interview.scheduledDate,
+      endDate: interview.scheduledDate
+        ? new Date(
+            new Date(interview.scheduledDate).getTime() +
+              (interview.durationMinutes || 60) * 60 * 1000
+          )
+        : null,
+      variant: interview.status === "Pending" ? "warning" : "success",
+    }));
+  } catch (error) {
+    console.error("Error fetching interview stages:", error);
+    return [];
   }
 }
