@@ -1,5 +1,4 @@
 import JobsList from "@/components/JobsList";
-import SearchForm from "@/components/SearchForm";
 import {
   dehydrate,
   HydrationBoundary,
@@ -16,7 +15,6 @@ async function JobsPage() {
   });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <SearchForm />
       <JobsList />
     </HydrationBoundary>
   );

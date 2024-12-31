@@ -13,6 +13,7 @@ import Link from "next/link";
 import { ArrowRight, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import Collaborators from "../assets/collaborators.svg";
+import SearchForm from "./SearchForm";
 
 function JobsList() {
   const searchParams = useSearchParams();
@@ -89,6 +90,8 @@ function JobsList() {
           </Button>
         </div>
       </div>
+
+      <SearchForm />
 
       <div className="flex items-center justify-between mb-8">
         <h2 className="text-xl font-semibold capitalize ">

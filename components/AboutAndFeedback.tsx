@@ -29,21 +29,18 @@ export default function AboutAndFeedback() {
 
           {/* Content */}
           <p className="text-lg text-gray-600 mt-4 leading-relaxed text-center lg:text-left">
-            After over 10 years as a software developer, I’ve faced the same
-            challenges many job seekers do—fixing CVs, tracking applications,
-            and preparing for interviews. It can be exhausting and frustrating.
+            We all know how challenging job hunting can be—polishing CVs,
+            tracking applications, preparing for interviews. It’s exhausting!
           </p>
           <p className="text-lg text-gray-600 mt-4 leading-relaxed text-center lg:text-left">
             That’s why I created{" "}
-            <span className="text-primary">Jobportuneer</span>. It’s a tool
-            designed to simplify your job search—helping you stay organized,
-            meet deadlines, and focus on landing your next opportunity. My goal
-            is to give you the confidence and edge you need to succeed.
+            <span className="text-primary">Jobportuneer</span>. a tool to help
+            you stay organized, track your progress, and focus on landing your
+            next opportunity.
           </p>
           <p className="text-lg text-gray-600 mt-4 leading-relaxed text-center lg:text-left">
-            Feel free to connect with me! If you’re , let’s grab a Feel free to
-            connect with me! If you’re in London 🇬🇧, let’s grab a coffee and
-            chat about tech, entrepreneurship, opportunities...
+            Let’s connect! If you’re in London 🇬🇧, I’d love to grab a coffee and
+            chat about tech, entrepreneurship, or your next career move.
           </p>
 
           {/* Social Links */}
