@@ -79,7 +79,7 @@ export default function AboutAndFeedback() {
               Share Your Feedback
             </h3>
             <p className="text-gray-600 mt-2">
-              Your feedback helps improve Jobportuneer. Let us know how we’re
+              Your feedback helps improve Jobportuneer. Let me know how I’m
               doing!
             </p>
             <div className="mt-4 flex-grow">
