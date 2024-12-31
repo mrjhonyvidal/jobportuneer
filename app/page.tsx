@@ -27,7 +27,7 @@ export default function Home() {
               asChild
               className="px-6 py-3 text-lg font-bold bg-green-600 text-white hover:bg-green-700 focus:ring-4 focus:ring-green-300 rounded-lg shadow-md"
             >
-              <Link href="/add-job">
+              <Link href="/jobs">
                 <span className="flex items-center space-x-2">
                   <ArrowRight className="w-6 h-6" />
                   <span>Start Tracking</span>
