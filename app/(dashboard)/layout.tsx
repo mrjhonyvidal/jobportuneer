@@ -1,6 +1,6 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/theme/Navbar";
 import { SidebarProvider } from "@/components/ui/sidebar"; // Ensure correct path to SidebarProvider
-import AppSidebar from "@/components/AppSidebar";
+import AppSidebar from "@/components/theme/AppSidebar";
 
 import { PropsWithChildren } from "react";
 

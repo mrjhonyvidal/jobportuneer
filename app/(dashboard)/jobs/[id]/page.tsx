@@ -1,5 +1,5 @@
-import EditJobForm from "@/components/EditJobForm";
-import { getSingleJobAction } from "@/utils/actions";
+import EditJobForm from "@/components/jobs/EditJobForm";
+import { getSingleJobAction } from "@/services/jobs";
 
 import {
   dehydrate,

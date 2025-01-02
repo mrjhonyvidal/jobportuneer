@@ -1,4 +1,4 @@
-import { IEvent } from "@/components/Interviews/IEvents";
+import { IEvent } from "@/components/interviews/IEvents";
 
 export const mockInterviews: IEvent[] = [
   {

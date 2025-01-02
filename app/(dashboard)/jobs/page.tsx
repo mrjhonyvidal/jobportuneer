@@ -1,10 +1,10 @@
-import JobsList from "@/components/JobsList";
+import JobsList from "@/components/jobs/JobsList";
+import { getAllJobsAction } from "@/services/jobs";
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { getAllJobsAction } from "@/utils/actions";
 
 async function JobsPage() {
   const queryClient = new QueryClient();

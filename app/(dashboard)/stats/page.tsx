@@ -1,6 +1,6 @@
-import ChartsContainer from "@/components/ChartsContainer";
-import StatsContainer from "@/components/StatsContainer";
-import { getChartsDataAction, getStatsAction } from "@/utils/actions";
+import ChartsContainer from "@/components/stats/ChartsContainer";
+import StatsContainer from "@/components/stats/StatsContainer";
+import { getChartsDataAction, getStatsAction } from "@/services/stats";
 import {
   dehydrate,
   HydrationBoundary,

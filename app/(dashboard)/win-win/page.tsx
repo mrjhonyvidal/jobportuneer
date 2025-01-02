@@ -1,4 +1,4 @@
-import AboutAndFeedback from "@/components/AboutAndFeedback";
+import AboutAndFeedback from "@/components/feedback/AboutAndFeedback";
 
 function WinWin() {
   return (

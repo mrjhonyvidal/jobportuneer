@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import FullCalendar from "@fullcalendar/react"; // FullCalendar React component
-import dayGridPlugin from "@fullcalendar/daygrid"; // For month/day views
-import timeGridPlugin from "@fullcalendar/timegrid"; // For week/time views
-import listPlugin from "@fullcalendar/list"; // For list view
-import interactionPlugin from "@fullcalendar/interaction"; // For user interactions like dragging
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import listPlugin from "@fullcalendar/list";
+import interactionPlugin from "@fullcalendar/interaction";
 import { mockInterviews } from "@/utils/data/mockInterviews";
-import { IEvent } from "@/components/Interviews/IEvents";
+import { IEvent } from "@/components/interviews/IEvents";
 
 const Interviews = () => {
   const events = mockInterviews;

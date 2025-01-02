@@ -1,4 +1,4 @@
-import CreateJobForm from "@/components/CreateJobForm";
+import CreateJobForm from "@/components/jobs/CreateJobForm";
 import {
   dehydrate,
   HydrationBoundary,

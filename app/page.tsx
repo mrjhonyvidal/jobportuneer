@@ -3,8 +3,8 @@ import LandingImg from "../assets/main.svg";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import PublicFooter from "@/components/PublicFooter";
-import PublicNavBar from "@/components/PublicNavBar";
+import PublicFooter from "@/components/theme/PublicFooter";
+import PublicNavBar from "@/components/theme/PublicNavBar";
 
 export default function Home() {
   return (

@@ -1,4 +1,4 @@
-import PublicNavBar from "@/components/PublicNavBar";
+import PublicNavBar from "@/components/theme/PublicNavBar";
 
 export default function CookiesPolicy() {
   return (

@@ -1,4 +1,4 @@
-import PreferencesPage from "@/components/PreferencePage";
+import PreferencesPage from "@/components/preferences/PreferencePage";
 import React from "react";
 
 function page() {
