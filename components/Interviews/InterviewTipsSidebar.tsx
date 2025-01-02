@@ -6,7 +6,10 @@ interface InterviewTipsSidebarProps {
   onClose: () => void;
 }
 
-function InterviewTipsSidebar({ isOpen, onClose }: InterviewTipsSidebarProps) {
+export default function InterviewTipsSidebar({
+  isOpen,
+  onClose,
+}: InterviewTipsSidebarProps) {
   const interviewTipsSections = [
     {
       title: "Resume Review",
@@ -36,5 +39,3 @@ function InterviewTipsSidebar({ isOpen, onClose }: InterviewTipsSidebarProps) {
     />
   );
 }
-
-export default InterviewTipsSidebar;

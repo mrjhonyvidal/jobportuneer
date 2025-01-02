@@ -24,10 +24,10 @@ import {
   WorkType,
 } from "@/types/enums";
 import CustomFormSelect, { CustomFormField } from "../shared/FormComponents";
-import InterviewList from "../interviews/InterviewList";
-import InterviewTipsSidebar from "../interviews/InterviewTipsSidebar";
 import JobDetailsSidebar from "./JobDetailsSidebar";
 import { getSingleJobAction, updateJobAction } from "@/services/jobs";
+import InterviewList from "../interviews/InterviewList";
+import InterviewTipsSidebar from "../interviews/InterviewTipsSidebar";
 
 function EditJobForm({ jobId }: { jobId: string }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
