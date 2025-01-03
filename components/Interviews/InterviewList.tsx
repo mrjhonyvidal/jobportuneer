@@ -13,7 +13,7 @@ interface InterviewListProps {
   steps: InterviewStep[];
 }
 
-export default function InterviewList({ steps }: InterviewListProps) {
+function InterviewList({ steps }: InterviewListProps) {
   const completedSteps = steps.filter((step) => step.completed).length;
   const totalSteps = steps.length;
 
@@ -51,3 +51,5 @@ export default function InterviewList({ steps }: InterviewListProps) {
     </div>
   );
 }
+
+export default InterviewList;
