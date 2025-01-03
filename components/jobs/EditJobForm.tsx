@@ -25,9 +25,9 @@ import {
 } from "@/types/enums";
 import CustomFormSelect, { CustomFormField } from "../shared/FormComponents";
 import JobDetailsSidebar from "./JobDetailsSidebar";
+import InterviewList from "../interviews/InterviewList";
+import InterviewTipsSidebar from "../interviews/InterviewTipsSidebar";
 import { getSingleJobAction, updateJobAction } from "@/services/jobs";
-import InterviewList from "@/components/interviews/InterviewList";
-import InterviewTipsSidebar from "@/components/interviews/InterviewTipsSidebar";
 
 function EditJobForm({ jobId }: { jobId: string }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
