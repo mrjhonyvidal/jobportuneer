@@ -10,10 +10,26 @@ The app includes user login, job listings, application tracking, and more.
 - [Shadcn UI](https://ui.shadcn.com/)
 - TailwindCSS and DaisyUI
 - Clerkjs Auth
-- Render.com (DB PostgreSQL)
+- Render.com (DB PostgreSQL) - previously / Now using Supabase
 - Prisma ORM
 
-# Prisma Development Commands
+## Supabase
+
+```
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+```
+
+[Docs](https://www.prisma.io/docs/orm/overview/databases/supabase)
+
+## Prisma Development Commands
 
 This project uses Prisma as the ORM. Below are the essential Prisma commands for schema management, database migrations, and other related tasks.
 
