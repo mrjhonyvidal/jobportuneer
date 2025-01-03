@@ -26,6 +26,8 @@ import {
 import CustomFormSelect, { CustomFormField } from "../shared/FormComponents";
 import JobDetailsSidebar from "./JobDetailsSidebar";
 import { getSingleJobAction, updateJobAction } from "@/services/jobs";
+import InterviewList from "../interviews/InterviewList";
+import InterviewTipsSidebar from "../interviews/InterviewTipsSidebar";
 
 function EditJobForm({ jobId }: { jobId: string }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -398,7 +400,7 @@ function EditJobForm({ jobId }: { jobId: string }) {
         </form>
       </Form>
 
-      {/* <InterviewList
+      <InterviewList
         steps={[
           {
             title: "Phone Screening",
@@ -416,7 +418,7 @@ function EditJobForm({ jobId }: { jobId: string }) {
             completed: false,
           },
         ]}
-      /> */}
+      />
 
       {sidebarContentType === "job" && data && (
         <JobDetailsSidebar
@@ -426,12 +428,12 @@ function EditJobForm({ jobId }: { jobId: string }) {
         />
       )}
 
-      {/* {sidebarContentType === "interview" && (
+      {sidebarContentType === "interview" && (
         <InterviewTipsSidebar
           isOpen={isSidebarOpen}
           onClose={() => setSidebarOpen(false)}
         />
-      )} */}
+      )}
     </>
   );
 }
