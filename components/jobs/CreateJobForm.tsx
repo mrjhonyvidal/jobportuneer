@@ -133,6 +133,23 @@ function CreateJobForm() {
                 isRequired={true}
                 tooltip="Enter the title of the job you are applying for."
               />
+              <CustomFormField
+                name="company"
+                control={form.control}
+                labelText="Company"
+                isRequired={true}
+                tooltip="Enter the name of the company offering the job."
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <CustomFormField
+                name="location"
+                control={form.control}
+                labelText="Location"
+                isRequired={true}
+                tooltip="Specify the job location."
+              />
               <CustomFormSelect
                 name="status"
                 control={form.control}
@@ -140,8 +157,20 @@ function CreateJobForm() {
                 items={Object.values(JobStatus)}
                 tooltip="Select the current status of the job application."
               />
+              <CustomFormField
+                name="salaryRange"
+                control={form.control}
+                labelText="Salary Range"
+                tooltip="Provide a salary range, e.g., $50,000 - $60,000."
+              />
+              <CustomFormField
+                name="dateApplied"
+                control={form.control}
+                labelText="Date Applied"
+                type="date"
+                tooltip="Select the date you applied for this job."
+              />
             </div>
-
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
               <CustomFormSelect
                 name="jobSource"
@@ -156,36 +185,6 @@ function CreateJobForm() {
                 labelText="URL to the Job Post"
                 placeholder="https://www.ycombinator.com/companies/x/jobs/tech-leader"
                 tooltip="Provide the job posting link if applicable."
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              <CustomFormField
-                name="company"
-                control={form.control}
-                labelText="Company"
-                isRequired={true}
-                tooltip="Enter the name of the company offering the job."
-              />
-              <CustomFormField
-                name="location"
-                control={form.control}
-                labelText="Location"
-                isRequired={true}
-                tooltip="Specify the job location."
-              />
-              <CustomFormField
-                name="dateApplied"
-                control={form.control}
-                labelText="Date Applied"
-                type="date"
-                tooltip="Select the date you applied for this job."
-              />
-              <CustomFormField
-                name="salaryRange"
-                control={form.control}
-                labelText="Salary Range"
-                tooltip="Provide a salary range, e.g., $50,000 - $60,000."
               />
             </div>
 
