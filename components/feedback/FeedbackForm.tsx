@@ -13,22 +13,26 @@ type FeedbackFormData = {
 
 export default function FeedbackForm() {
   const [rating, setRating] = useState<number>(0);
-  const { register, handleSubmit, reset, setError, watch } =
-    useForm<FeedbackFormData>({
-      defaultValues: { feedback: "", allowShareMyFeedbackPublic: true },
-    });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    watch,
+    formState: { errors },
+  } = useForm<FeedbackFormData>({
+    defaultValues: { feedback: "", allowShareMyFeedbackPublic: true },
+  });
   const { toast } = useToast();
   const feedbackLength = watch("feedback")?.length || 0;
 
   const onSubmit = async (data: FeedbackFormData) => {
     if (rating === 0) {
       setError("feedback", {
-        message:
-          "Please choose a rating to submit your feedback—it makes a big difference!",
+        message: "Please choose a rating to submit your feedback.",
       });
       toast({
-        description:
-          "Please choose a rating to submit your feedback—it makes a big difference!",
+        description: "Please choose a rating to submit your feedback.",
       });
       return;
     }
@@ -36,29 +40,23 @@ export default function FeedbackForm() {
     try {
       const result = await submitFeedbackAction({
         feedback: data.feedback,
-        rating: rating,
+        rating,
         allowShareMyFeedbackPublic: data.allowShareMyFeedbackPublic,
       });
 
       if (result.success) {
-        // Show success toast
         toast({
-          description:
-            "Thank you so much for your feedback! 🙌 It means the world to me and helps make Jobportuneer even better for you.",
+          description: "Thank you for your feedback! 🙌",
         });
-
-        // Reset form and rating
         reset();
         setRating(0);
       } else {
-        // Show error toast with a clear message
         toast({
           description:
             result.message || "Failed to submit feedback. Try again.",
         });
       }
     } catch (error) {
-      // Handle unexpected errors
       toast({
         description: "An unexpected error occurred. Please try again.",
       });
@@ -68,20 +66,27 @@ export default function FeedbackForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col items-center w-full mt-4"
+      className="flex flex-col items-center space-y-4 mt-6 bg-white dark:bg-neutral-800 dark:text-neutral-200 rounded-lg p-6 shadow-lg transition-colors"
     >
-      {/* Rating Section */}
-      <div className="flex gap-2 mb-4">
+      {/* Star Rating */}
+      <div className="flex gap-2">
         {Array.from({ length: 5 }).map((_, index) => (
           <Star
             key={index}
             className={`w-8 h-8 cursor-pointer transition ${
-              rating > index ? "text-secondary" : "text-gray-300"
-            } hover:text-secondary`}
+              rating > index
+                ? "text-yellow-500"
+                : "text-gray-300 dark:text-gray-500"
+            } hover:text-yellow-500`}
             onClick={() => setRating(index + 1)}
           />
         ))}
       </div>
+      {rating === 0 && (
+        <p className="text-red-500 text-sm dark:text-red-400">
+          Please select a rating.
+        </p>
+      )}
 
       {/* Feedback Text Area */}
       <textarea
@@ -89,31 +94,40 @@ export default function FeedbackForm() {
           required: "Feedback is required.",
           minLength: {
             value: 10,
-            message: "Feedback must be at least 10 characters long.",
+            message: "Feedback must be at least 10 characters.",
           },
           maxLength: {
             value: 200,
-            message: "Feedback must be at most 200 characters long.",
+            message: "Feedback must be at most 200 characters.",
           },
         })}
         placeholder="Share your feedback (10-200 characters)..."
-        className="w-full h-32 p-4 border rounded-lg focus:ring-2 focus:ring-primary"
-      ></textarea>
-      <div className="text-sm mt-1">
-        {feedbackLength}/200 characters used (You can submit up to 3 entries).
+        className={`w-full h-32 p-4 border rounded-lg focus:ring-2 dark:bg-neutral-900 dark:text-neutral-100 dark:border-neutral-700 ${
+          errors.feedback
+            ? "border-red-500 focus:ring-red-500 dark:border-red-400 dark:focus:ring-red-400"
+            : "focus:ring-yellow-500 dark:focus:ring-yellow-500"
+        }`}
+      />
+      <div className="text-sm text-gray-500 dark:text-gray-400">
+        {feedbackLength}/200 characters used (minimum 10 required).
       </div>
+      {errors.feedback && (
+        <p className="text-red-500 text-sm dark:text-red-400">
+          {errors.feedback.message}
+        </p>
+      )}
 
       {/* Allow Public Sharing */}
-      <div className="flex items-center gap-2 mt-4">
+      <div className="flex items-center space-x-2">
         <input
           type="checkbox"
           id="allowShareMyFeedbackPublic"
           {...register("allowShareMyFeedbackPublic")}
-          className="w-5 h-5 text-secondary border-gray-300 rounded focus:ring-secondary"
+          className="w-5 h-5 text-yellow-500 border-gray-300 bg-white dark:bg-neutral-900 rounded focus:ring-yellow-500 dark:focus:ring-yellow-500"
         />
         <label
           htmlFor="allowShareMyFeedbackPublic"
-          className="text-sm text-gray-600"
+          className="text-sm text-gray-600 dark:text-gray-300"
         >
           Make my feedback public.
         </label>
@@ -122,7 +136,7 @@ export default function FeedbackForm() {
       {/* Submit Button */}
       <button
         type="submit"
-        className="mt-4 px-6 py-3 bg-primary text-white rounded-lg shadow-md transition hover:bg-green-600 hover:shadow-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+        className="w-full mt-4 px-6 py-3 bg-yellow-500 text-white rounded-lg shadow hover:bg-yellow-600 focus:ring-2 focus:ring-yellow-500 transition-colors"
       >
         Submit Feedback
       </button>

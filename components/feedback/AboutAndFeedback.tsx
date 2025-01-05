@@ -1,54 +1,47 @@
 import Image from "next/image";
-import { Linkedin, Github, Globe, Coffee } from "lucide-react";
+import { Linkedin, Github, Globe } from "lucide-react";
 import FeedbackForm from "./FeedbackForm";
 import profilePhoto from "../../assets/jhony-vidal-profile-photo.jpg";
-import BmcQR from "../../assets/bmc_qr.png";
 
 export default function AboutAndFeedback() {
   return (
-    <main className="flex flex-col items-center min-h-screen px-4 sm:px-8">
-      {/* Content Wrapper */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl w-full py-16">
+    <main className="flex flex-col items-center min-h-screen px-4 sm:px-8 bg-gray-100 dark:bg-neutral-900 text-gray-800 dark:text-neutral-200 transition-colors">
+      <div className="max-w-4xl w-full py-16 space-y-12">
         {/* About Section */}
-        <section className="bg-white p-8 rounded-lg shadow-md flex flex-col items-center lg:items-start">
-          {/* Card Header with Profile Image */}
-          <div className="flex flex-col items-center w-full mb-6">
-            <div className="relative w-24 h-24 lg:w-64 lg:h-64">
-              <Image
-                src={profilePhoto}
-                alt="Jhony Vidal"
-                className="rounded-full border-4 border-primary shadow-lg object-cover"
-                layout="fill"
-                priority
-              />
-            </div>
-            <h2 className="text-3xl font-bold  text-center lg:text-left mt-4">
-              Hi there
-            </h2>
+        <section className="bg-white dark:bg-neutral-800 p-8 rounded-lg shadow-md flex flex-col items-center text-center">
+          {/* Profile Image */}
+          <div className="relative w-28 h-28 sm:w-40 sm:h-40">
+            <Image
+              src={profilePhoto}
+              alt="Jhony Vidal"
+              className="rounded-full border-4 border-yellow-500 shadow-lg object-cover"
+              layout="fill"
+              priority
+            />
           </div>
 
-          {/* Content */}
-          <p className="text-lg text-gray-600 mt-4 leading-relaxed text-center lg:text-left">
-            Job hunting can be exhausting—polishing CVs, tracking applications,
-            and preparing for interviews.
+          {/* Intro Content */}
+          <h2 className="text-2xl sm:text-3xl font-bold mt-4">Hi there 👋</h2>
+          <p className="mt-4 leading-relaxed">
+            Job hunting can be tough—juggling CVs, tracking applications, and
+            preparing for interviews. That’s why I created{" "}
+            <span className="text-primary font-semibold">Jobportuneer</span>.
+            This app helps you organize your progress and land your next big
+            opportunity!
           </p>
-          <p className="text-lg text-gray-600 mt-4 leading-relaxed text-center lg:text-left">
-            That’s why I built{" "}
-            <span className="text-primary">Jobportuneer</span>—to help you stay
-            organized, track your progress, and land your next opportunity.
-          </p>
-          <p className="text-lg text-gray-600 mt-4 leading-relaxed text-center lg:text-left">
-            In London? Let’s grab a coffee and chat about tech,
-            entrepreneurship, or your next career move.
+          <p className="mt-4 leading-relaxed">
+            I built this during my weekends—an exciting journey of passion and
+            learning. If you’re in London, let’s grab a coffee and talk about
+            tech, entrepreneurship, or your career!
           </p>
 
           {/* Social Links */}
-          <div className="flex justify-center lg:justify-start space-x-6 mt-6">
+          <div className="flex justify-center space-x-6 mt-6">
             <a
               href="https://www.linkedin.com/in/jhony-vidal/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-800"
+              className="text-blue-500 hover:text-blue-600"
             >
               <Linkedin size={32} />
             </a>
@@ -56,7 +49,7 @@ export default function AboutAndFeedback() {
               href="https://github.com/mrjhonyvidal"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-800 hover:text-gray-900"
+              className="text-gray-800 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-400"
             >
               <Github size={32} />
             </a>
@@ -64,7 +57,7 @@ export default function AboutAndFeedback() {
               href="https://trailblazergarage.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-green-600 hover:text-green-700"
+              className="text-green-500 hover:text-green-600"
             >
               <Globe size={32} />
             </a>
@@ -72,18 +65,15 @@ export default function AboutAndFeedback() {
         </section>
 
         {/* Feedback Section */}
-        <section className="p-8 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
-          <div className=" p-6 rounded-lg flex flex-col h-full">
-            <h3 className="text-2xl font-semibold text-gray-800">
-              Your Feedback Matters
-            </h3>
-            <p className="text-gray-600 mt-2">
-              Help me improve Jobportuneer! I’d love to hear your thoughts.
-            </p>
-            <div className="mt-4 flex-grow">
-              <FeedbackForm />
-            </div>
-          </div>
+        <section className="bg-white dark:bg-neutral-800 p-8 rounded-lg shadow-md">
+          <h3 className="text-2xl font-semibold text-center">
+            Your Feedback Matters 🌟
+          </h3>
+          <p className="text-gray-600 dark:text-gray-400 text-center mt-2">
+            I’d love to hear your thoughts about Jobportuneer. Your feedback
+            helps make this app better for you and others.
+          </p>
+          <FeedbackForm />
         </section>
       </div>
     </main>
