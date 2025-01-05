@@ -60,7 +60,7 @@ export default function InterviewCard({
         <div className="flex items-center gap-2">
           {statusIcon}
           <CardTitle
-            className="text-lg font-medium text-gray-800"
+            className="text-lg font-medium"
             onClick={(e) => {
               e.stopPropagation(); // Prevent triggering the card's onClick
               onClick();
@@ -85,7 +85,7 @@ export default function InterviewCard({
           </p>
         )}
         <p className="text-sm">
-          <span className="font-semibold text-gray-800">Status:</span>{" "}
+          <span className="font-semibold ">Status:</span>{" "}
           <span
             className={`font-semibold ${
               interview.status === "Pending"

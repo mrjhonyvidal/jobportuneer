@@ -279,7 +279,7 @@ function EditJobForm({ jobId }: { jobId: string }) {
                       {requirements.map((req: string, index: number) => (
                         <div
                           key={index}
-                          className="flex gap-2 items-center border border-gray-300 p-2 rounded bg-gray-50 shadow-sm"
+                          className="flex gap-2 items-center border border-gray-300 p-2 rounded  shadow-sm"
                         >
                           <span className="truncate">{req}</span>
                           <button
@@ -338,7 +338,7 @@ function EditJobForm({ jobId }: { jobId: string }) {
                       {benefits.map((ben: string, index: number) => (
                         <div
                           key={index}
-                          className="flex gap-2 items-center border border-gray-300 p-2 rounded bg-gray-50 shadow-sm"
+                          className="flex gap-2 items-center border border-gray-300 p-2 rounded shadow-sm"
                         >
                           <span className="truncate">{ben}</span>
                           <button

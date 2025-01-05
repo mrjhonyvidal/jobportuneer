@@ -5,7 +5,7 @@ export default function TermsOfUse() {
     <>
       <PublicNavBar />
       <main className="max-w-6xl mx-auto px-4 sm:px-8 py-12">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">Terms of Use</h1>
+        <h1 className="text-3xl font-bold mb-6">Terms of Use</h1>
         <div className="prose prose-gray">
           <p>
             Welcome to Jobportuneer! By using our app, you agree to these Terms

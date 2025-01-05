@@ -6,7 +6,7 @@ import BmcQR from "../../assets/bmc_qr.png";
 
 export default function AboutAndFeedback() {
   return (
-    <main className="flex flex-col items-center min-h-screen bg-gray-50 px-4 sm:px-8">
+    <main className="flex flex-col items-center min-h-screen px-4 sm:px-8">
       {/* Content Wrapper */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl w-full py-16">
         {/* About Section */}
@@ -22,7 +22,7 @@ export default function AboutAndFeedback() {
                 priority
               />
             </div>
-            <h2 className="text-3xl font-bold text-gray-800 text-center lg:text-left mt-4">
+            <h2 className="text-3xl font-bold  text-center lg:text-left mt-4">
               Hi there
             </h2>
           </div>
@@ -73,7 +73,7 @@ export default function AboutAndFeedback() {
 
         {/* Feedback Section */}
         <section className="p-8 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
-          <div className="bg-gray-50 p-6 rounded-lg flex flex-col h-full">
+          <div className=" p-6 rounded-lg flex flex-col h-full">
             <h3 className="text-2xl font-semibold text-gray-800">
               Your Feedback Matters
             </h3>

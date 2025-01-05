@@ -76,9 +76,7 @@ export default function PreferencesPage() {
 
   return (
     <div className="container mx-auto max-w-2xl p-6">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-        Notification Preferences
-      </h2>
+      <h2 className="text-2xl font-semibold mb-6">Notification Preferences</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {/* Enable All Notifications */}

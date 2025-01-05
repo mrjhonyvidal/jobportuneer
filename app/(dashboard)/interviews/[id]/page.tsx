@@ -101,9 +101,7 @@ export default function JobInterviewStepEdit({
           onSubmit={form.handleSubmit((values) => mutate(values))}
           className="bg-muted p-8 rounded-lg shadow-md space-y-6"
         >
-          <h2 className="text-4xl font-semibold text-gray-800 mb-6">
-            Edit Interview Step
-          </h2>
+          <h2 className="text-4xl font-semibold mb-6">Edit Interview Step</h2>
 
           {/* Stage Name */}
           <CustomFormField
@@ -162,10 +160,10 @@ export default function JobInterviewStepEdit({
           <div className="flex justify-end">
             <button
               type="submit"
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 disabled:opacity-50"
+              className="px-6 py-2 bg-primary rounded-lg font-medium hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 disabled:opacity-50"
               disabled={isPending}
             >
-              {isPending ? "Saving..." : "Save"}
+              {isPending ? "Saving..." : "Update Interview"}
             </button>
           </div>
         </form>

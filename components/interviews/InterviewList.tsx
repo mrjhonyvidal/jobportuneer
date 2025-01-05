@@ -52,10 +52,8 @@ export default function InterviewList({ jobId }: InterviewListProps) {
   return (
     <div className="space-y-8 mt-10">
       {/* Progress Section */}
-      <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
-        <h3 className="font-semibold text-3xl text-gray-800 mb-4">
-          Interview Progress
-        </h3>
+      <div className="p-6 rounded-lg shadow-sm border border-gray-200">
+        <h3 className="font-semibold text-3xl mb-4">Interview Progress</h3>
         <Progress value={progress} className="h-4 rounded-full bg-gray-200" />
         <p className="text-sm text-gray-500 mt-2">
           {completedSteps}/{interviews?.length || 0} steps completed

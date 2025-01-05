@@ -5,9 +5,7 @@ export default function CookiesPolicy() {
     <>
       <PublicNavBar />
       <main className="max-w-6xl mx-auto px-4 sm:px-8 py-12">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">
-          Cookies Policy
-        </h1>
+        <h1 className="text-3xl font-bold  mb-6">Cookies Policy</h1>
         <div className="prose prose-gray">
           <p>
             Jobportuneer uses cookies to enhance your experience. By using our

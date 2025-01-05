@@ -21,10 +21,10 @@ export default function JobQuickActions({
   onOpenInterviewTips,
 }: JobQuickActionsProps) {
   return (
-    <div className="flex flex-wrap gap-2 justify-start sm:justify-between items-center p-4 bg-gray-50 rounded-lg shadow-sm border border-gray-200">
+    <div className="flex flex-wrap gap-2 justify-start sm:justify-between items-center p-4  rounded-lg shadow-sm border border-gray-200">
       {/* Add Interview Button */}
       <CreateInterviewModal jobId={jobId}>
-        <Button className="bg-blue-600 flex items-center gap-2 w-full sm:w-auto justify-center">
+        <Button className="bg-blue-600 text-white flex items-center gap-2 w-full sm:w-auto justify-center">
           <Plus className="w-5 h-5" />
           Add Interview
         </Button>
