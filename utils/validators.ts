@@ -60,6 +60,7 @@ export const feedbackSchema = z.object({
     .max(400, { message: "Feedback must be at most 400 characters long." }),
   rating: z.number().min(1, { message: "Rating must be at least 1 star." }),
 });
+export type FeedbackType = z.infer<typeof feedbackSchema>;
 
 export const createInterviewStepSchema = z.object({
   stageName: z.string().min(1, "Stage name is required"),

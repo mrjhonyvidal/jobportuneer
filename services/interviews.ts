@@ -98,6 +98,7 @@ export async function updateInterviewStepAction(
 
     return {
       ...updatedInterview,
+      status: updatedInterview.status as InterviewStageStatus,
       tips: [], // Placeholder for tips logic
     };
   } catch (error) {
@@ -113,9 +114,19 @@ export async function fetchSingleInterview(
   const userId = authenticateAndRedirect();
 
   try {
-    return await prisma.interviewStage.findUnique({
+    const interview = await prisma.interviewStage.findUnique({
       where: { id, clerkId: userId },
     });
+
+    if (interview) {
+      return {
+        ...interview,
+        status: interview.status as InterviewStageStatus,
+        tips: [], // Placeholder for tips logic
+      };
+    }
+
+    return null;
   } catch (error) {
     console.error("Error fetching interview:", error);
     return null;
