@@ -56,41 +56,6 @@ export default function AppSidebar() {
           </SidebarGroup>
         </SidebarMenu>
       </SidebarContent>
-
-      {/* Sidebar Footer */}
-      <div className="p-6">
-        <div className="shadow-lg border border-gray-200 rounded-xl p-4 flex flex-col items-center">
-          {/* Image Section */}
-          <div className="w-fit h-30 mb-4">
-            <Link
-              href="https://chrome.google.com/webstore" // Replace with the actual Chrome Web Store link
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                src={ChromeExtensionImage}
-                alt="Chrome Extension"
-                className="w-full h-full object-contain cursor-pointer"
-                priority
-              />
-            </Link>
-          </div>
-          {/* Description */}
-          <p className="text-center text-sm">
-            Quickly save jobs to your dashboard while browsing.{" "}
-          </p>
-          <p className="text-center text-sm mt-2">
-            <Link
-              href="https://chrome.google.com/webstore" // Replace with the actual Chrome Web Store link
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-green-600 hover:text-green-800 underline font-medium"
-            >
-              Soon
-            </Link>
-          </p>
-        </div>
-      </div>
     </Sidebar>
   );
 }

@@ -22,11 +22,6 @@ const links: NavLink[] = [
     icon: <AppWindow size={24} />,
   },
   {
-    href: "/interviews",
-    label: "Interviews",
-    icon: <CalendarCheck2 size={24} />,
-  },
-  {
     href: "/stats",
     label: "Insights",
     icon: <AreaChart size={24} />,
