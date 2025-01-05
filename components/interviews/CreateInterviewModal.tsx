@@ -50,7 +50,13 @@ export default function CreateInterviewModal({
       createInterviewStepAction(jobId, values),
     onSuccess: () => {
       toast({ description: "Interview step added successfully!" });
-      queryClient.invalidateQueries({ queryKey: ["jobs"] });
+
+      // Invalidate the interview list for the job
+      queryClient.invalidateQueries({ queryKey: ["interviews", jobId] });
+
+      // Optionally invalidate the job data if interviews are part of it
+      queryClient.invalidateQueries({ queryKey: ["job", jobId] });
+
       setIsOpen(false);
       form.reset();
     },

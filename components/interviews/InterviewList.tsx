@@ -1,55 +1,125 @@
 "use client";
 
+import React from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Progress } from "@/components/ui/progress";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
+import {
+  fetchJobInterviews,
+  deleteInterviewStepAction,
+} from "@/services/interviews";
+import { InterviewStageType } from "@/types/types";
+import { useRouter } from "next/navigation";
 
-interface InterviewStep {
-  title: string;
-  description: string;
-  completed: boolean;
-}
+type InterviewListProps = {
+  jobId: string;
+};
 
-interface InterviewListProps {
-  steps: InterviewStep[];
-}
+export default function InterviewList({ jobId }: InterviewListProps) {
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
-function InterviewList({ steps }: InterviewListProps) {
-  const completedSteps = steps.filter((step) => step.completed).length;
-  const totalSteps = steps.length;
+  const { data: interviews, isLoading } = useQuery({
+    queryKey: ["interviews", jobId],
+    queryFn: () => fetchJobInterviews(jobId),
+  });
+
+  const { mutate: deleteInterview } = useMutation({
+    mutationFn: (id: string) => deleteInterviewStepAction(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["interviews", jobId] });
+    },
+  });
+
+  if (isLoading) {
+    return <div className="text-center py-6">Loading interviews...</div>;
+  }
+
+  const completedSteps =
+    interviews?.filter(
+      (interview: InterviewStageType) => interview.status === "Passed"
+    ).length || 0;
+
+  const progress = interviews?.length
+    ? (completedSteps / interviews.length) * 100
+    : 0;
 
   return (
-    <div className="space-y-6 mt-6 mb-6">
-      {/* Progress Bar */}
+    <div className="space-y-8">
+      {/* Progress Section */}
       <div>
-        <h3 className="font-semibold text-lg mb-2">Interview Progress</h3>
-        <Progress value={(completedSteps / totalSteps) * 100} />
-        <p className="text-sm mt-2">
-          {completedSteps}/{totalSteps} steps completed
+        <h3 className="font-semibold text-3xl text-gray-800 mb-4">
+          Interview Progress
+        </h3>
+        <Progress value={progress} className="h-4 rounded-full bg-gray-200" />
+        <p className="text-sm text-gray-500 mt-2">
+          {completedSteps}/{interviews?.length || 0} steps completed
         </p>
       </div>
 
-      {/* Steps List */}
-      <div className="space-y-4">
-        {steps.map((step, index) => (
-          <Card key={index} className="border">
-            <CardHeader className="flex justify-between items-center">
-              <CardTitle>{step.title}</CardTitle>
-              <span
-                className={`text-sm font-medium ${
-                  step.completed ? "text-green-600" : ""
-                }`}
-              >
-                {step.completed ? "Completed" : "Pending"}
-              </span>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm">{step.description}</p>
-            </CardContent>
-          </Card>
+      {/* Interview Cards */}
+      <div className="space-y-6">
+        {interviews?.map((interview: InterviewStageType) => (
+          <InterviewCard
+            key={interview.id}
+            interview={interview}
+            onDelete={() => deleteInterview(interview.id)}
+            onEdit={() => router.push(`/interviews/${interview.id}`)}
+          />
         ))}
       </div>
     </div>
   );
 }
 
-export default InterviewList;
+type InterviewCardProps = {
+  interview: InterviewStageType;
+  onDelete: () => void;
+  onEdit: () => void;
+};
+
+function InterviewCard({ interview, onDelete, onEdit }: InterviewCardProps) {
+  return (
+    <Card className="shadow-sm border">
+      <CardHeader className="flex justify-between items-center">
+        <CardTitle className="text-lg font-medium">
+          {interview.stageName}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="text-gray-600 text-sm italic mb-3">
+          {interview.description || "No description provided."}
+        </p>
+        <p className="text-sm">
+          <span className="font-semibold text-gray-800">Status:</span>{" "}
+          <span
+            className={`font-semibold ${
+              interview.status === "Pending"
+                ? "text-yellow-600"
+                : interview.status === "Passed"
+                ? "text-green-600"
+                : "text-gray-600"
+            }`}
+          >
+            {interview.status}
+          </span>
+        </p>
+      </CardContent>
+      <CardFooter className="flex justify-end space-x-2">
+        <Button size="sm" onClick={onEdit}>
+          Edit
+        </Button>
+        <Button variant="destructive" size="sm" onClick={onDelete}>
+          Remove
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
