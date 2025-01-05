@@ -1,21 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
 import {
   fetchJobInterviews,
   deleteInterviewStepAction,
 } from "@/services/interviews";
 import { InterviewStageType } from "@/types/types";
+import InterviewCard from "./InterviewCard";
+import InterviewSidebar from "./InterviewSidebar";
 import { useRouter } from "next/navigation";
 
 type InterviewListProps = {
@@ -25,6 +19,10 @@ type InterviewListProps = {
 export default function InterviewList({ jobId }: InterviewListProps) {
   const queryClient = useQueryClient();
   const router = useRouter();
+
+  const [selectedInterview, setSelectedInterview] =
+    useState<InterviewStageType | null>(null);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const { data: interviews, isLoading } = useQuery({
     queryKey: ["interviews", jobId],
@@ -52,9 +50,9 @@ export default function InterviewList({ jobId }: InterviewListProps) {
     : 0;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 mt-10">
       {/* Progress Section */}
-      <div>
+      <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
         <h3 className="font-semibold text-3xl text-gray-800 mb-4">
           Interview Progress
         </h3>
@@ -65,61 +63,29 @@ export default function InterviewList({ jobId }: InterviewListProps) {
       </div>
 
       {/* Interview Cards */}
-      <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {interviews?.map((interview: InterviewStageType) => (
           <InterviewCard
             key={interview.id}
             interview={interview}
-            onDelete={() => deleteInterview(interview.id)}
+            onClick={() => {
+              setSelectedInterview(interview);
+              setSidebarOpen(true);
+            }}
             onEdit={() => router.push(`/interviews/${interview.id}`)}
+            onDelete={() => deleteInterview(interview.id)}
           />
         ))}
       </div>
+
+      {/* Sidebar */}
+      {selectedInterview && (
+        <InterviewSidebar
+          isOpen={isSidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          interview={selectedInterview}
+        />
+      )}
     </div>
-  );
-}
-
-type InterviewCardProps = {
-  interview: InterviewStageType;
-  onDelete: () => void;
-  onEdit: () => void;
-};
-
-function InterviewCard({ interview, onDelete, onEdit }: InterviewCardProps) {
-  return (
-    <Card className="shadow-sm border">
-      <CardHeader className="flex justify-between items-center">
-        <CardTitle className="text-lg font-medium">
-          {interview.stageName}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-gray-600 text-sm italic mb-3">
-          {interview.description || "No description provided."}
-        </p>
-        <p className="text-sm">
-          <span className="font-semibold text-gray-800">Status:</span>{" "}
-          <span
-            className={`font-semibold ${
-              interview.status === "Pending"
-                ? "text-yellow-600"
-                : interview.status === "Passed"
-                ? "text-green-600"
-                : "text-gray-600"
-            }`}
-          >
-            {interview.status}
-          </span>
-        </p>
-      </CardContent>
-      <CardFooter className="flex justify-end space-x-2">
-        <Button size="sm" onClick={onEdit}>
-          Edit
-        </Button>
-        <Button variant="destructive" size="sm" onClick={onDelete}>
-          Remove
-        </Button>
-      </CardFooter>
-    </Card>
   );
 }

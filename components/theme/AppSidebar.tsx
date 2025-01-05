@@ -86,7 +86,7 @@ export default function AppSidebar() {
               rel="noopener noreferrer"
               className="text-green-600 hover:text-green-800 underline font-medium"
             >
-              Visit webstore
+              Soon
             </Link>
           </p>
         </div>

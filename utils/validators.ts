@@ -68,6 +68,8 @@ export const createInterviewStepSchema = z.object({
     (value) => (typeof value === "string" ? new Date(value) : value),
     z.date().nullable().optional()
   ),
+  feedbackNotes: z.string().optional(),
+  interviewNotes: z.string().optional(),
   durationMinutes: z.preprocess(
     (value) => (value !== null && value !== undefined ? Number(value) : value),
     z.number().min(0).nullable().optional()
