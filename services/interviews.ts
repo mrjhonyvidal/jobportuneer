@@ -1,32 +1,49 @@
 "use server";
 
-import authenticateAndRedirect from "./auth";
 import prisma from "../utils/db";
+import { z } from "zod";
+import authenticateAndRedirect from "./auth";
+import { InterviewStageType } from "@/types/types";
+import { InterviewStageStatus } from "@/types/enums";
+import {
+  createInterviewStepSchema,
+  CreateInterviewStepType,
+} from "@/utils/validators";
 
-export async function getAllInterviewStages() {
+export async function createInterviewStepAction(
+  jobId: string,
+  values: CreateInterviewStepType
+): Promise<InterviewStageType | null> {
   const userId = authenticateAndRedirect();
 
   try {
-    const interviewStages = await prisma.interviewStage.findMany({
-      where: { clerkId: userId },
-      orderBy: { scheduledDate: "asc" },
+    // Validate the input
+    createInterviewStepSchema.parse(values);
+
+    // Ensure the status matches the expected enum type
+    const status = values.status as InterviewStageStatus;
+
+    // Create the interview step in the database
+    const interviewStep = await prisma.interviewStage.create({
+      data: {
+        stageName: values.stageName,
+        description: values.description || null,
+        scheduledDate: values.scheduledDate || null,
+        durationMinutes: values.durationMinutes || null,
+        status: status,
+        jobId,
+        clerkId: userId,
+      },
     });
 
-    return interviewStages.map((interview) => ({
-      id: interview.id,
-      title: interview.stageName,
-      description: interview.description || "",
-      startDate: interview.scheduledDate,
-      endDate: interview.scheduledDate
-        ? new Date(
-            new Date(interview.scheduledDate).getTime() +
-              (interview.durationMinutes || 60) * 60 * 1000
-          )
-        : null,
-      variant: interview.status === "Pending" ? "warning" : "success",
-    }));
+    // Return the created step
+    return {
+      ...interviewStep,
+      status: status as InterviewStageStatus,
+      tips: null, // Include optional relations if needed
+    };
   } catch (error) {
-    console.error("Error fetching interview stages:", error);
-    return [];
+    console.error("Error creating interview step:", error);
+    return null;
   }
 }

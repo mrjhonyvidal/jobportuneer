@@ -1,12 +1,13 @@
-// **Zod Schema for Job Validation**
 import {
   EmploymentType,
+  InterviewStageStatus,
   JobStatus,
   PriorityType,
   WorkType,
 } from "@/types/enums";
 import * as z from "zod";
 
+// **Zod Schema for Job Validation**
 export const createAndEditJobSchema = z.object({
   position: z.string().min(2, {
     message: "Position must be at least 2 characters.",
@@ -51,6 +52,7 @@ export const createAndEditJobSchema = z.object({
 
 export type CreateAndEditJobType = z.infer<typeof createAndEditJobSchema>;
 
+// Zod Schema for Feedback Validation
 export const feedbackSchema = z.object({
   feedback: z
     .string()
@@ -59,4 +61,20 @@ export const feedbackSchema = z.object({
   rating: z.number().min(1, { message: "Rating must be at least 1 star." }),
 });
 
-export type FeedbackType = z.infer<typeof feedbackSchema>;
+export const createInterviewStepSchema = z.object({
+  stageName: z.string().min(1, "Stage name is required"),
+  description: z.string().optional(),
+  scheduledDate: z.preprocess(
+    (value) => (typeof value === "string" ? new Date(value) : value),
+    z.date().nullable().optional()
+  ),
+  durationMinutes: z.preprocess(
+    (value) => (value !== null && value !== undefined ? Number(value) : value),
+    z.number().min(0).nullable().optional()
+  ),
+  status: z.nativeEnum(InterviewStageStatus, {
+    message: "Interview status must be valid",
+  }),
+});
+
+export type CreateInterviewStepType = z.infer<typeof createInterviewStepSchema>;
