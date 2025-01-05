@@ -47,3 +47,77 @@ export async function createInterviewStepAction(
     return null;
   }
 }
+
+// Fetch interviews for a specific job
+export async function fetchJobInterviews(
+  jobId: string
+): Promise<InterviewStageType[]> {
+  const userId = authenticateAndRedirect();
+
+  try {
+    const interviews = await prisma.interviewStage.findMany({
+      where: { jobId, clerkId: userId },
+      orderBy: { createdAt: "asc" },
+    });
+
+    return interviews.map((interview) => ({
+      ...interview,
+      status: interview.status as InterviewStageStatus,
+      tips: [],
+    }));
+  } catch (error) {
+    console.error("Error fetching interviews:", error);
+    return [];
+  }
+}
+
+// Delete an interview step
+export async function deleteInterviewStepAction(id: string): Promise<void> {
+  const userId = authenticateAndRedirect();
+
+  try {
+    await prisma.interviewStage.delete({
+      where: { id, clerkId: userId },
+    });
+  } catch (error) {
+    console.error("Error deleting interview step:", error);
+  }
+}
+
+export async function updateInterviewStepAction(
+  id: string,
+  values: CreateInterviewStepType
+): Promise<InterviewStageType | null> {
+  const userId = authenticateAndRedirect();
+
+  try {
+    const updatedInterview = await prisma.interviewStage.update({
+      where: { id, clerkId: userId },
+      data: values,
+    });
+
+    return {
+      ...updatedInterview,
+      tips: [], // Placeholder for tips logic
+    };
+  } catch (error) {
+    console.error("Error updating interview step:", error);
+    return null;
+  }
+}
+
+// Fetch a single interview
+export async function fetchSingleInterview(
+  id: string
+): Promise<InterviewStageType | null> {
+  const userId = authenticateAndRedirect();
+
+  try {
+    return await prisma.interviewStage.findUnique({
+      where: { id, clerkId: userId },
+    });
+  } catch (error) {
+    console.error("Error fetching interview:", error);
+    return null;
+  }
+}
