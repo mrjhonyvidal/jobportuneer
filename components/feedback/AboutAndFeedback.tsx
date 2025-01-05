@@ -29,18 +29,17 @@ export default function AboutAndFeedback() {
 
           {/* Content */}
           <p className="text-lg text-gray-600 mt-4 leading-relaxed text-center lg:text-left">
-            We all know how challenging job hunting can be—polishing CVs,
-            tracking applications, preparing for interviews. It’s exhausting!
+            Job hunting can be exhausting—polishing CVs, tracking applications,
+            and preparing for interviews.
           </p>
           <p className="text-lg text-gray-600 mt-4 leading-relaxed text-center lg:text-left">
-            That’s why I created{" "}
-            <span className="text-primary">Jobportuneer</span>. a tool to help
-            you stay organized, track your progress, and focus on landing your
-            next opportunity.
+            That’s why I built{" "}
+            <span className="text-primary">Jobportuneer</span>—to help you stay
+            organized, track your progress, and land your next opportunity.
           </p>
           <p className="text-lg text-gray-600 mt-4 leading-relaxed text-center lg:text-left">
-            Let’s connect! If you’re in London 🇬🇧, I’d love to grab a coffee and
-            chat about tech, entrepreneurship, or your next career move.
+            In London? Let’s grab a coffee and chat about tech,
+            entrepreneurship, or your next career move.
           </p>
 
           {/* Social Links */}
@@ -76,11 +75,10 @@ export default function AboutAndFeedback() {
         <section className="p-8 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
           <div className="bg-gray-50 p-6 rounded-lg flex flex-col h-full">
             <h3 className="text-2xl font-semibold text-gray-800">
-              Share Your Feedback
+              Your Feedback Matters
             </h3>
             <p className="text-gray-600 mt-2">
-              Your feedback helps improve Jobportuneer. Let me know how I’m
-              doing!
+              Help me improve Jobportuneer! I’d love to hear your thoughts.
             </p>
             <div className="mt-4 flex-grow">
               <FeedbackForm />

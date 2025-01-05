@@ -61,7 +61,7 @@ export default function AppSidebar() {
       <div className="p-6">
         <div className="shadow-lg border border-gray-200 rounded-xl p-4 flex flex-col items-center">
           {/* Image Section */}
-          <div className="w-40 h-40 mb-4">
+          <div className="w-fit h-30 mb-4">
             <Link
               href="https://chrome.google.com/webstore" // Replace with the actual Chrome Web Store link
               target="_blank"
@@ -77,7 +77,7 @@ export default function AppSidebar() {
           </div>
           {/* Description */}
           <p className="text-center text-sm">
-            Save jobs directly to your dashboard.
+            Quickly save jobs to your dashboard while browsing.{" "}
           </p>
           <p className="text-center text-sm mt-2">
             <Link

@@ -100,8 +100,7 @@ export default function FeedbackForm() {
         className="w-full h-32 p-4 border rounded-lg focus:ring-2 focus:ring-primary"
       ></textarea>
       <div className="text-sm mt-1">
-        You’ve used {feedbackLength} out of 200 characters (Up to 3 feedback
-        entries allowed)
+        {feedbackLength}/200 characters used (You can submit up to 3 entries).
       </div>
 
       {/* Allow Public Sharing */}
@@ -112,15 +111,18 @@ export default function FeedbackForm() {
           {...register("allowShareMyFeedbackPublic")}
           className="w-5 h-5 text-secondary border-gray-300 rounded focus:ring-secondary"
         />
-        <label htmlFor="allowShareMyFeedbackPublic" className="text-sm">
-          Allow my feedback to be shared publicly
+        <label
+          htmlFor="allowShareMyFeedbackPublic"
+          className="text-sm text-gray-600"
+        >
+          Make my feedback public.
         </label>
       </div>
 
       {/* Submit Button */}
       <button
         type="submit"
-        className="mt-4 px-6 py-3 bg-primary text-white rounded-lg shadow-md hover:bg-primary-dark transition"
+        className="mt-4 px-6 py-3 bg-primary text-white rounded-lg shadow-md transition hover:bg-green-600 hover:shadow-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
       >
         Submit Feedback
       </button>
