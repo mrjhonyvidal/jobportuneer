@@ -36,9 +36,9 @@ function JobDetailsSidebar({
       content: job.location || "Not specified",
     },
     {
-      title: "Salary",
+      title: "Salary Range",
       icon: <DollarSign className="w-5 h-5 text-primary" />,
-      content: job.salary || "Not specified",
+      content: job.salaryRange || "Not specified",
     },
   ];
 
