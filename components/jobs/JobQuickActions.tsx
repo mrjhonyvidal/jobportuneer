@@ -24,10 +24,7 @@ export default function JobQuickActions({
     <div className="flex flex-wrap gap-2 justify-start sm:justify-between items-center p-4 bg-gray-50 rounded-lg shadow-sm border border-gray-200">
       {/* Add Interview Button */}
       <CreateInterviewModal jobId={jobId}>
-        <Button
-          variant="secondary"
-          className="flex items-center gap-2 w-full sm:w-auto justify-center"
-        >
+        <Button className="bg-blue-600 flex items-center gap-2 w-full sm:w-auto justify-center">
           <Plus className="w-5 h-5" />
           Add Interview
         </Button>

@@ -440,25 +440,7 @@ function EditJobForm({ jobId }: { jobId: string }) {
         </form>
       </Form>
 
-      <InterviewList
-        steps={[
-          {
-            title: "Phone Screening",
-            description: "Initial call with HR.",
-            completed: true,
-          },
-          {
-            title: "Technical Assessment",
-            description: "Online coding test.",
-            completed: false,
-          },
-          {
-            title: "Final Interview",
-            description: "Discussion with the leadership team.",
-            completed: false,
-          },
-        ]}
-      />
+      <InterviewList jobId={jobId} />
 
       {sidebarContentType === "job" && data && (
         <JobDetailsSidebar
