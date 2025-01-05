@@ -14,12 +14,15 @@ export default function PublicNavBar() {
   return (
     <header className="top-0 mx-auto px-4 sm:px-8 shadow-sm py-6 z-50 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-8 py-6 flex justify-between items-center">
-        <Link href="/">
+        <Link href="/" className="flex items-center space-x-2">
           <Image
             src={Logo}
             alt="Jobportuneer Logo"
             className="cursor-pointer"
           />
+          <span className="text-sm font-semibold bg-yellow-300 text-black px-2 py-0.5 rounded-md">
+            Beta
+          </span>
         </Link>
 
         {/* Desktop Links */}

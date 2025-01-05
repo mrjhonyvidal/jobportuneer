@@ -34,6 +34,7 @@ import JobDetailsSidebar from "./JobDetailsSidebar";
 import InterviewList from "../interviews/InterviewList";
 import InterviewTipsSidebar from "../interviews/InterviewTipsSidebar";
 import { getSingleJobAction, updateJobAction } from "@/services/jobs";
+import JobQuickActions from "./JobQuickActions";
 
 function EditJobForm({ jobId }: { jobId: string }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -130,6 +131,17 @@ function EditJobForm({ jobId }: { jobId: string }) {
     mutate(values);
   };
 
+  const handleOpenJobDetails = () => {
+    setSidebarContentType("job");
+    setSidebarOpen(true);
+  };
+
+  // Function to handle opening interview tips sidebar
+  const handleOpenInterviewTips = () => {
+    setSidebarContentType("interview");
+    setSidebarOpen(true);
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -137,30 +149,13 @@ function EditJobForm({ jobId }: { jobId: string }) {
   return (
     <>
       {/* Top Actions Buttons Section */}
+
       <div className="flex justify-end items-center mb-6">
-        <div className="flex gap-2">
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setSidebarContentType("job");
-              setSidebarOpen(true);
-            }}
-            className="flex items-center gap-2"
-          >
-            Open Job Details
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => {
-              setSidebarContentType("interview");
-              setSidebarOpen(true);
-            }}
-            className="flex items-center gap-2"
-          >
-            <MoreHorizontal className="w-5 h-5" />
-            More Options
-          </Button>
-        </div>
+        <JobQuickActions
+          jobId={jobId}
+          onOpenJobDetails={handleOpenJobDetails}
+          onOpenInterviewTips={handleOpenInterviewTips}
+        />
       </div>
       <Form {...form}>
         <form
